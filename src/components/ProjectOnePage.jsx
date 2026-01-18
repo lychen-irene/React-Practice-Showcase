@@ -1,10 +1,11 @@
 // import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 
+const basePath = import.meta.env.VITE_PROJECT_PATH || ''
 const titles = [
-  { id: 1, title: 'Home', url: '/' },
-  { id: 2, title: 'About', url: '/' },
-  { id: 3, title: 'Project-1', url: '/projectOne.html' },
+  { id: 1, title: 'Home', url: `${basePath}/` },
+  { id: 2, title: 'About', url: `${basePath}/` },
+  { id: 3, title: 'Project-1', url: `${basePath}/projectOne.html` },
 ]
 
 const ProjectOnePage = () => {
