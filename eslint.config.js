@@ -3,9 +3,11 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default defineConfig([
   globalIgnores(['dist']),
+  stylistic.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -15,12 +17,15 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: globals.browser, // load global variables that exist in browser environments
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: 'module', // Enable module syntax and imply strict mode
       },
+    },
+    plugins: {
+      '@stylistic': stylistic,
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
