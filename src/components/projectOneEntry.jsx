@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import ProjectOnePage from './components/ProjectOnePage.jsx'
+import ProjectOnePage from '../../src/components/ProjectOnePage'
 
 import 'bootstrap'
-import './assets/all.scss'
+import '../../src/assets/all.scss'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

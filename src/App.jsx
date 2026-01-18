@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import projectOneUrl from './components/projectOne.html?url'
 import Navbar from './components/Navbar'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -10,7 +9,7 @@ function App() {
   const titles = [
     { id: 1, title: 'Home', url: '/' },
     { id: 2, title: 'ABout', url: '/' },
-    { id: 3, title: 'Project-1', url: projectOneUrl },
+    { id: 3, title: 'Project-1', url: '/projectOne.html' },
   ]
   const [count, setCount] = useState(0)
   return (

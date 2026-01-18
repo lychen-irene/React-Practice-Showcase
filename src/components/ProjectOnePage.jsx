@@ -1,11 +1,10 @@
 // import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
-import projectOneUrl from '../components/projectOne.html?url'
 
 const titles = [
   { id: 1, title: 'Home', url: '/' },
   { id: 2, title: 'About', url: '/' },
-  { id: 3, title: 'Project-1', url: projectOneUrl },
+  { id: 3, title: 'Project-1', url: '/projectOne.html' },
 ]
 
 const ProjectOnePage = () => {
