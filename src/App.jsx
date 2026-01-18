@@ -1,15 +1,29 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import projectOneUrl from './components/projectOne.html?url'
+import Navbar from './components/Navbar'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
+  const titles = [
+    { id: 1, title: 'Home', url: '/' },
+    { id: 2, title: 'ABout', url: '/' },
+    { id: 3, title: 'Project-1', url: projectOneUrl },
+  ]
   const [count, setCount] = useState(0)
-
   return (
     <>
+      <Navbar>
+        {titles.map((item) => {
+          return (
+            <li className="nav-item" key={item.id}>
+              <a className="nav-link " href={item.url}>{item.title}</a>
+            </li>
+          )
+        })}
+      </Navbar>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
