@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    background-color: #242424;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.87);
+    transition: border-color 0.25s;
+    display: flex; // Use flexbox for layout
+    justify-content: center; // Center horizontally
+    align-items: center; // Center vertically
+    min-height: 100vh; // Ensure body takes full viewport height
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.card {
+    background-color: #242424;
+    color: rgba(255, 255, 255, 0.87);
+    border: none;
+    display: flex; // Use flexbox for layout
+    justify-content: center; // Center horizontally
+    align-items: center; // Center vertically
+}
+
+.btn {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    width: 150px;
+    padding: 1em 2em;
+    margin-bottom: 1em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    // background-color: #1a1a1a;
+    // color: rgba(255, 255, 255, 0.87);
+    cursor: pointer;
+    
+}
+.btn:hover {
+    border-color: #646cff;
+  }
+.btn:focus,
+.btn:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }

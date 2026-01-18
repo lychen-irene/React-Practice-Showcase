@@ -1,62 +1,13 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import 'bootstrap/scss/functions';
 
-// 1. Define your variable overrides here to customize Bootstrap
-$primary: #242424;
-$h1-font-size: 2em;
+// 2. Define your variable overrides here to customize Bootstrap
+@import './style/customize';
 
-// ==> Customize button padding for width and height here <==
-$btn-padding-y: 1rem; // This affects the button's height
-$btn-padding-x: 2rem; // This affects the button's width
-
-// 2. Import the rest of Bootstrap
+// 3. Import the rest of Bootstrap
+@import './style/variables';
+@import './style/variables-dark';
 @import 'bootstrap/scss/bootstrap';
 
-// 3. Your custom styles
-body {
-    margin: 0;
-    background-color: $primary;
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    color: rgba(255, 255, 255, 0.87);
-    transition: border-color 0.25s;
-    display: flex; // Use flexbox for layout
-    justify-content: center; // Center horizontally
-    align-items: center; // Center vertically
-    min-height: 100vh; // Ensure body takes full viewport height
-}
-
-h1 {
-    font-size: $h1-font-size;
-    font-weight: bold;
-}
-
-.card {
-    background-color: $primary;
-    color: rgba(255, 255, 255, 0.87);
-    border: none;
-    display: flex; // Use flexbox for layout
-    justify-content: center; // Center horizontally
-    align-items: center; // Center vertically
-}
-
-.btn {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    width: 150px;
-    padding: $btn-padding-y $btn-padding-x;
-    margin-bottom: 1em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    color: rgba(255, 255, 255, 0.87);
-    cursor: pointer;
-    
-}
-.btn:hover {
-    border-color: #646cff;
-  }
-.btn:focus,
-.btn:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
+// 4. Your custom styles
+@import './style/loading';
