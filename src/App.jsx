@@ -17,7 +17,20 @@ function App() {
         {titles.map((item) => {
           return (
             <li className="nav-item" key={item.id}>
-              <a className="nav-link " href={item.url}>{item.title}</a>
+              {
+                item.title === 'About'
+                  ? (
+                      <a className="nav-link" aria-current="page" href={item.url}>
+                        {item.title}
+                      </a>
+                    )
+                  : (
+                      <a className="nav-link" href={item.url}>
+                        {item.title}
+                      </a>
+                    )
+              }
+
             </li>
           )
         })}
