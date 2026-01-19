@@ -19,6 +19,8 @@ export default defineConfig(({ mode }) => {
           main: resolve(process.cwd(), 'index.html'),
           // eslint-disable-next-line no-undef
           projectOne: resolve(process.cwd(), 'projectOne.html'),
+          // eslint-disable-next-line no-undef
+          projectTwo: resolve(process.cwd(), 'projectTwo.html'),
         },
       },
     },
