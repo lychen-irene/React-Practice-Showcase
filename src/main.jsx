@@ -4,7 +4,6 @@ import App from './App.jsx'
 import ProjectOnePage from './components/ProjectOnePage.jsx'
 
 // import './index.css'
-import 'bootstrap'
 import './assets/all.scss'
 
 createRoot(document.getElementById('root')).render(
