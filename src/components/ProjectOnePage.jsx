@@ -113,7 +113,7 @@ const ProjectOnePage = () => {
                     <div className="card-body">
                       <h5 className="card-title">
                         {tempProduct.title}
-                        <span className="badge bg-primary ms-2">{}</span>
+                        <span className="badge bg-secondary ms-2">{tempProduct.category}</span>
                       </h5>
                       <p className="card-text">
                         商品描述：
