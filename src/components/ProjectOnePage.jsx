@@ -1,6 +1,7 @@
 // eslint-disable-next-line
 import { useEffect, useState } from 'react'
 import Navbar, { titles } from '../components/Navbar'
+import Footer from '../components/Footer'
 
 const ProjectOnePage = () => {
   const [tempProduct, setTempProduct] = useState(null)
@@ -148,6 +149,7 @@ const ProjectOnePage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
