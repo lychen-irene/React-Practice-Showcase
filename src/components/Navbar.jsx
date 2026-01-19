@@ -3,7 +3,7 @@ const basePath = import.meta.env.VITE_PROJECT_PATH || ''
 export const titles = [
   { id: 1, title: 'About', url: `${basePath}/` },
   { id: 2, title: 'Project-1', url: `${basePath}/projectOne.html` },
-  { id: 3, title: 'Project-2', url: `${basePath}/` },
+  { id: 3, title: 'Project-2', url: `${basePath}/projectTwo.html` },
 ]
 
 const Navbar = ({ children }) => {

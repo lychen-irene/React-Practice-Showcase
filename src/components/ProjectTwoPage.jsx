@@ -1,9 +1,9 @@
 // eslint-disable-next-line
 import { useEffect, useState } from 'react'
-import Navbar, { titles } from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar, { titles } from './Navbar'
+import Footer from './Footer'
 
-const ProjectOnePage = () => {
+const ProjectTwoPage = () => {
   const [tempProduct, setTempProduct] = useState(null)
   // eslint-disable-next-line
   const [products, setProducts] = useState([
@@ -163,4 +163,4 @@ const ProjectOnePage = () => {
   )
 }
 
-export default ProjectOnePage
+export default ProjectTwoPage
