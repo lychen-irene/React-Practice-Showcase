@@ -33,8 +33,13 @@
   }
 }
 
-.card {
+.card-sample {
   padding: 2em;
+  border: none;
+}
+
+.card-sample p {
+  margin-top: 1em;
 }
 
 .read-the-docs {

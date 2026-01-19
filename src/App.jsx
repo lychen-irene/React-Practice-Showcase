@@ -1,17 +1,14 @@
+// eslint-disable-next-line
 import { useEffect, useState } from 'react'
+// eslint-disable-next-line
 import axios from 'axios'
-import Navbar from './components/Navbar'
+
+import Navbar, { titles } from './components/Navbar'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const basePath = import.meta.env.VITE_PROJECT_PATH || ''
-  const titles = [
-    { id: 1, title: 'Home', url: `${basePath}/` },
-    { id: 2, title: 'ABout', url: `${basePath}/` },
-    { id: 3, title: 'Project-1', url: `${basePath}/projectOne.html` },
-  ]
   const [count, setCount] = useState(0)
   return (
     <>
@@ -33,7 +30,7 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
+      <div className="card-sample">
         <button className="btn btn-primary" onClick={() => setCount(count => count + 1)}>
           count is
           {' '}
