@@ -133,9 +133,9 @@ const ProjectOnePage = () => {
                       </div>
                       <h5 className="mt-3">更多圖片：</h5>
                       <div className="d-flex flex-wrap">
-                        {tempProduct.imagesUrl.map((item) => {
+                        {tempProduct.imagesUrl.map((item, index) => {
                           return (
-                            <img src={item} className="card-img-top" alt="主圖" />
+                            <img src={item} className="card-img-top" alt="主圖" key={index} />
                           )
                         })}
                       </div>
