@@ -7,7 +7,7 @@
 // 3. Import the rest of Bootstrap
 @import './style/variables';
 @import './style/variables-dark';
-@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap'; // loads Bootstrap's CSS style plugins only
 
 // 4. Your custom styles
 @import './style/loading';
