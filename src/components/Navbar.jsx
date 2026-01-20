@@ -1,4 +1,4 @@
-const basePath = import.meta.env._API_URL || ''
+const basePath = import.meta.env.VITE_PROJECT_PATH || ''
 // eslint-disable-next-line
 export const titles = [
   { id: 1, title: 'About', url: `${basePath}/` },
