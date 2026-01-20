@@ -7,7 +7,6 @@ import Navbar, { titles } from './components/Navbar'
 import Footer from './components/Footer'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -45,7 +44,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card-sample">
-        <button className="btn btn-primary" onClick={() => setCount(count => count + 1)}>
+        <button className="btn btn-secondary" onClick={() => setCount(count => count + 1)}>
           count is
           {' '}
           {count}

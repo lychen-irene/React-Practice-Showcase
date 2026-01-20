@@ -107,7 +107,7 @@ const ProjectOnePage = () => {
                       {item.is_enabled ? '已啟用' : '未啟用'}
                     </td>
                     <td className="align-middle">
-                      <button className="btn btn-primary" onClick={() => setTempProduct(item)}>查看細節</button>
+                      <button className="btn btn-secondary" onClick={() => setTempProduct(item)}>查看細節</button>
                     </td>
                   </tr>
                 ))}

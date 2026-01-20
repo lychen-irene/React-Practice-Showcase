@@ -1,9 +1,12 @@
 // eslint-disable-next-line
 import { useEffect, useState } from 'react'
+
+// const apiBasePath = import.meta.env.VITE_API_BASE_PATH
 import Navbar, { titles } from './Navbar'
 import Footer from './Footer'
 
 const ProjectTwoPage = () => {
+  // eslint-disable-next-line
   const [tempProduct, setTempProduct] = useState(null)
   // eslint-disable-next-line
   const [products, setProducts] = useState([
@@ -82,8 +85,26 @@ const ProjectTwoPage = () => {
           )
         })}
       </Navbar>
-
-      <div className="container-fluid">
+      <div className="container login">
+        <h2>請先登入</h2>
+        {/* <form id="form" className="form-signin" onSubmit={handleSubmit}> */}
+        <div className="form-floating mb-3">
+          <input type="email" className="form-control" id="username" placeholder="name@example.com" />
+          <label htmlFor="username">Email address</label>
+        </div>
+        <div className="form-floating">
+          <input type="password" className="form-control" id="password" placeholder="Password" />
+          <label htmlFor="password">Password</label>
+        </div>
+        <button
+          className="btn btn-lg btn-secondary w-20 mt-4"
+          type="submit"
+        >
+          登入
+        </button>
+        {/* </form> */}
+      </div>
+      {/* <div className="container-fluid">
         <div className="row mt-5 row-col-2">
           <div className="col">
             <h2>產品列表</h2>
@@ -157,7 +178,7 @@ const ProjectTwoPage = () => {
                 )}
           </div>
         </div>
-      </div>
+      </div> */}
       <Footer />
     </>
   )

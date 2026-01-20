@@ -1,3 +1,4 @@
+// Default body
 body {
     width: 100%;
     margin: 0;
@@ -13,6 +14,7 @@ body {
     
 }
 
+// Default vite homepage
 #root {
     width: 100%;
     max-width: 1280px;
@@ -21,9 +23,57 @@ body {
     text-align: center;
   }
 
-h1 {
+.logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+}
+.logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+}
+  
+@keyframes logo-spin {
+from {
+    transform: rotate(0deg);
+}
+to {
+    transform: rotate(360deg);
+}
+}
+  
+@media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}  
+.card-sample {
+    padding: 2em;
+    border: none;
+}
+  
+.card-sample p {
+    margin-top: 1em;
+}
+  
+.read-the-docs {
+    color: #888;
+}
+
+
+// Project-1
+div.d-flex {
+    justify-content: center; 
+    align-items: center;
+}
+
+h2 {
     font-size: 2em;
     font-weight: bold;
+    margin: 1em auto;
 }
 
 .card {
@@ -35,11 +85,6 @@ h1 {
     align-items: center; // Center vertically
 }
 
-div.d-flex {
-    justify-content: center; 
-    align-items: center;
-}
-
 .btn {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -49,7 +94,6 @@ div.d-flex {
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
-    
 }
 .btn:hover {
     border-color: #646cff;
@@ -59,6 +103,31 @@ div.d-flex {
     outline: 4px auto -webkit-focus-ring-color;
 }
 
+// Navbar
+.navbar {
+    background-color: #263238;
+}
+
+// Footer
 .footer {
     background-color: #242424;
 }
+
+
+
+// Project-2
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+  

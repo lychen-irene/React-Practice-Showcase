@@ -1,4 +1,4 @@
-const basePath = import.meta.env.VITE_PROJECT_PATH || ''
+const basePath = import.meta.env._API_URL || ''
 // eslint-disable-next-line
 export const titles = [
   { id: 1, title: 'About', url: `${basePath}/` },
@@ -9,7 +9,7 @@ export const titles = [
 const Navbar = ({ children }) => {
   return (
     <>
-      <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+      <nav className="navbar fixed-top navbar-expand-sm navbar-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href={`${basePath}/`}>
             Liang's React Project Showcase
