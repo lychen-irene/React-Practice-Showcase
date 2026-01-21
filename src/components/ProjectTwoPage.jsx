@@ -1,12 +1,70 @@
-// eslint-disable-next-line
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
-// const apiBasePath = import.meta.env.VITE_API_BASE_PATH
 import Navbar, { titles } from './Navbar'
 import Footer from './Footer'
 
 const ProjectTwoPage = () => {
-  // eslint-disable-next-line
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  const apiPath = import.meta.env.VITE_API_PATH
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  })
+  const [isAuth, setIsAuth] = useState(false)
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(preData => ({
+      ...preData,
+      [name]: value }))
+  }
+
+  const onSubmit = async (e) => {
+    try {
+      e.preventDefault()
+      const res = await axios.post(`${apiBaseUrl}/admin/signin`, formData)
+      const { token, expired } = res.data
+      document.cookie = `hexToken=${token};expires=${new Date(expired)};`
+      axios.defaults.headers.common['Authorization'] = token
+      setIsAuth(true)
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer
+          toast.onmouseleave = Swal.resumeTimer
+        },
+      })
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully',
+      })
+    }
+    catch {
+      setIsAuth(false)
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer
+          toast.onmouseleave = Swal.resumeTimer
+        },
+      })
+      Toast.fire({
+        icon: 'error',
+        title: 'Failed to sign in',
+      })
+    }
+  }
+
   const [tempProduct, setTempProduct] = useState(null)
   // eslint-disable-next-line
   const [products, setProducts] = useState([
@@ -64,47 +122,153 @@ const ProjectTwoPage = () => {
 
   return (
     <>
-      <Navbar>
-        {titles.map((item) => {
-          return (
-            <li className="nav-item" key={item.id}>
-              {
-                item.title === 'About'
-                  ? (
-                      <a className="nav-link" aria-current="page" href={item.url}>
-                        {item.title}
-                      </a>
-                    )
-                  : (
-                      <a className="nav-link" href={item.url}>
-                        {item.title}
-                      </a>
-                    )
-              }
-            </li>
-          )
-        })}
-      </Navbar>
-      <div className="container login">
-        <h2>請先登入</h2>
-        {/* <form id="form" className="form-signin" onSubmit={handleSubmit}> */}
-        <div className="form-floating mb-3">
-          <input type="email" className="form-control" id="username" placeholder="name@example.com" />
-          <label htmlFor="username">Email address</label>
-        </div>
-        <div className="form-floating">
-          <input type="password" className="form-control" id="password" placeholder="Password" />
-          <label htmlFor="password">Password</label>
-        </div>
-        <button
-          className="btn btn-lg btn-secondary w-20 mt-4"
-          type="submit"
-        >
-          登入
-        </button>
-        {/* </form> */}
+      <div>
+        <Navbar>
+          {titles.map((item) => {
+            return (
+              <li className="nav-item" key={item.id}>
+                {
+                  item.title === 'About'
+                    ? (
+                        <a className="nav-link" aria-current="page" href={item.url}>
+                          {item.title}
+                        </a>
+                      )
+                    : (
+                        <a className="nav-link" href={item.url}>
+                          {item.title}
+                        </a>
+                      )
+                }
+              </li>
+            )
+          })}
+        </Navbar>
+        {!isAuth
+          ? (
+              <div className="container login">
+                <h2>請先登入</h2>
+                <form className="form-floating" onSubmit={onSubmit}>
+                  <div className="form-floating mb-3">
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="username"
+                      name="username"
+                      placeholder="name@example.com"
+                      value={formData.username}
+                      onChange={handleInputChange}
+                      required
+                      autoFocus
+                    />
+                    <label htmlFor="username">Email address</label>
+                  </div>
+                  <div className="form-floating">
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="password"
+                      name="password"
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <label htmlFor="password">Password</label>
+                  </div>
+                  <button
+                    className="btn btn-lg btn-secondary w-20 mt-4"
+                    type="submit"
+                  >
+                    登入
+                  </button>
+                </form>
+              </div>
+            )
+          : (
+              <div className="container-fluid">
+                <div className="row mt-5 row-col-2">
+                  <div className="col">
+                    <h2>產品列表</h2>
+                    <table className="table table-dark table-striped table-bordered border-secondary">
+                      <thead className="">
+                        <tr>
+                          <th>產品名稱</th>
+                          <th>原價</th>
+                          <th>售價</th>
+                          <th>是否啟用</th>
+                          <th>查看細節</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {products.map(item => (
+                          <tr key={item.id}>
+                            <td className="align-middle">{item.title}</td>
+                            <td className="align-middle">{item.origin_price}</td>
+                            <td className="align-middle">{item.price}</td>
+                            <td className="align-middle">
+                              {item.is_enabled ? '已啟用' : '未啟用'}
+                            </td>
+                            <td className="align-middle">
+                              <button className="btn btn-primary" onClick={() => setTempProduct(item)}>查看細節</button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="col">
+                    <h2>單一產品細節</h2>
+                    {tempProduct
+                      ? (
+                          <div className="card border-secondary mb-3">
+                            <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt="主圖" />
+                            <div className="card-body">
+                              <h5 className="card-title">
+                                {tempProduct.title}
+                                <span className="badge bg-secondary ms-2">{tempProduct.category}</span>
+                              </h5>
+                              <p className="card-text">
+                                商品描述：
+                                {tempProduct.description}
+                              </p>
+                              <p className="card-text">
+                                商品內容：
+                                {tempProduct.content}
+                              </p>
+                              <div className="d-flex">
+                                <p className="card-text text-secondary"><del>{tempProduct.origin_price}</del></p>
+                                元 /
+                                {' '}
+                                {tempProduct.price}
+                                {' '}
+                                元
+                              </div>
+                              <h5 className="mt-3">更多圖片：</h5>
+                              <div className="d-flex flex-wrap">
+                                {tempProduct.imagesUrl.map((item, index) => {
+                                  return (
+                                    <img src={item} className="card-img-top" alt="主圖" key={index} />
+                                  )
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      : (
+                          <p className="text-secondary">請選擇一個商品查看</p>
+                        )}
+                  </div>
+                </div>
+              </div>
+            )}
+        <Footer />
       </div>
-      {/* <div className="container-fluid">
+    </>
+  )
+}
+
+{ /* <div className="container-fluid">
         <div className="row mt-5 row-col-2">
           <div className="col">
             <h2>產品列表</h2>
@@ -178,10 +342,6 @@ const ProjectTwoPage = () => {
                 )}
           </div>
         </div>
-      </div> */}
-      <Footer />
-    </>
-  )
-}
+      </div> */ }
 
 export default ProjectTwoPage

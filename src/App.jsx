@@ -1,7 +1,5 @@
 // eslint-disable-next-line
 import { useEffect, useState } from 'react'
-// eslint-disable-next-line
-import axios from 'axios'
 
 import Navbar, { titles } from './components/Navbar'
 import Footer from './components/Footer'

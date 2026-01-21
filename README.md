@@ -28,3 +28,8 @@ npm install axios
 ```
 npm install bootstrap
 ```
+
+-[Sweetalert2](https://sweetalert2.github.io/#download)
+```
+npm install sweetalert2
+```

@@ -8,6 +8,7 @@
 @import './style/variables';
 @import './style/variables-dark';
 @import 'bootstrap/scss/bootstrap'; // loads Bootstrap's CSS style plugins only
+@import 'bootstrap'; // loads Bootstrap's JavaScript plugins
 
 // 4. Your custom styles
 @import './style/loading';
