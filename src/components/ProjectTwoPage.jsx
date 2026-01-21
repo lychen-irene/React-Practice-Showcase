@@ -9,8 +9,8 @@ const ProjectTwoPage = () => {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
   const [formData, setFormData] = useState({
-    username: 'chenliangyu09@gmail.com',
-    password: 'hexschoolau4a83',
+    username: '',
+    password: '',
   })
   const [isAuth, setIsAuth] = useState(() => {
     const token = document.cookie
