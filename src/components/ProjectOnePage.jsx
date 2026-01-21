@@ -98,16 +98,16 @@ const ProjectOnePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map(item => (
-                  <tr key={item.id}>
-                    <td className="align-middle">{item.title}</td>
-                    <td className="align-middle">{item.origin_price}</td>
-                    <td className="align-middle">{item.price}</td>
+                {products.map(product => (
+                  <tr key={product.id}>
+                    <td className="align-middle">{product.title}</td>
+                    <td className="align-middle">{product.origin_price}</td>
+                    <td className="align-middle">{product.price}</td>
                     <td className="align-middle">
-                      {item.is_enabled ? '已啟用' : '未啟用'}
+                      {product.is_enabled ? '已啟用' : '未啟用'}
                     </td>
                     <td className="align-middle">
-                      <button className="btn btn-secondary" onClick={() => setTempProduct(item)}>查看細節</button>
+                      <button className="btn btn-secondary" onClick={() => setTempProduct(product)}>查看細節</button>
                     </td>
                   </tr>
                 ))}
@@ -119,7 +119,7 @@ const ProjectOnePage = () => {
             {tempProduct
               ? (
                   <div className="card border-secondary mb-3">
-                    <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt="主圖" />
+                    <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt={tempProduct.title} />
                     <div className="card-body">
                       <h5 className="card-title">
                         {tempProduct.title}
@@ -143,11 +143,9 @@ const ProjectOnePage = () => {
                       </div>
                       <h5 className="mt-3">更多圖片：</h5>
                       <div className="d-flex flex-wrap">
-                        {tempProduct.imagesUrl.map((item, index) => {
-                          return (
-                            <img src={item} className="card-img-top" alt="主圖" key={index} />
-                          )
-                        })}
+                        {tempProduct.imagesUrl?.map((url, index) => (
+                          <img key={index} src={url} className="card-img-top" alt={tempProduct.title} />
+                        ))}
                       </div>
                     </div>
                   </div>

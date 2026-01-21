@@ -219,16 +219,16 @@ const ProjectTwoPage = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {products.map(item => (
-                          <tr key={item.id}>
-                            <td className="align-middle">{item.title}</td>
-                            <td className="align-middle">{item.origin_price}</td>
-                            <td className="align-middle">{item.price}</td>
+                        {products.map(products => (
+                          <tr key={products.id}>
+                            <td className="align-middle">{products.title}</td>
+                            <td className="align-middle">{products.origin_price}</td>
+                            <td className="align-middle">{products.price}</td>
                             <td className="align-middle">
-                              {item.is_enabled ? '已啟用' : '未啟用'}
+                              {products.is_enabled ? '已啟用' : '未啟用'}
                             </td>
                             <td className="align-middle">
-                              <button className="btn btn-primary" onClick={() => setTempProduct(item)}>查看細節</button>
+                              <button className="btn btn-primary" onClick={() => setTempProduct(products)}>查看細節</button>
                             </td>
                           </tr>
                         ))}
@@ -240,7 +240,7 @@ const ProjectTwoPage = () => {
                     {tempProduct
                       ? (
                           <div className="card border-secondary mb-3">
-                            {tempProduct.imageUrl && <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt="主圖" referrerPolicy="no-referrer" />}
+                            {tempProduct.imageUrl && <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt={tempProduct.title} referrerPolicy="no-referrer" />}
                             <div className="card-body">
                               <h5 className="card-title">
                                 {tempProduct.title}
@@ -264,10 +264,10 @@ const ProjectTwoPage = () => {
                               </div>
                               <h5 className="mt-3">更多圖片：</h5>
                               <div className="d-flex flex-wrap">
-                                {tempProduct.imagesUrl?.map((item, index) => {
-                                  if (!item) return null
+                                {tempProduct.imagesUrl?.map((url, index) => {
+                                  if (!url) return null
                                   return (
-                                    <img src={item} className="card-img-top" alt="更多圖片" key={index} referrerPolicy="no-referrer" />
+                                    <img key={index} src={url} className="card-img-top" alt={tempProduct.title} referrerPolicy="no-referrer" />
                                   )
                                 })}
                               </div>
