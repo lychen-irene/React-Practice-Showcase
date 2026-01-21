@@ -8,8 +8,7 @@ My React Practice Showcase based on homework given by hexschool React lessons.
 npm install
 ```
 
-- [Vite](https://vite.dev/) and [React](https://react.dev/)
-- Creating new project
+- Creating new [Vite](https://vite.dev/) project based on [React](https://react.dev/) Framework (framework is chosenable during installation)
 ```
 npm create vite@latest
 ``` 
