@@ -18,6 +18,8 @@ export default defineConfig(({ mode }) => {
           // eslint-disable-next-line no-undef
           main: resolve(process.cwd(), 'index.html'),
           // eslint-disable-next-line no-undef
+          about: resolve(process.cwd(), 'about.html'),
+          // eslint-disable-next-line no-undef
           projectOne: resolve(process.cwd(), 'projectOne.html'),
           // eslint-disable-next-line no-undef
           projectTwo: resolve(process.cwd(), 'projectTwo.html'),
