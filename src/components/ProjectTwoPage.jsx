@@ -18,7 +18,7 @@ const ProjectTwoPage = () => {
       .split('; ')
       .find(row => row.startsWith('hexToken='))
       ?.split('=')[1]
-    return !!token
+    return token
   })
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
