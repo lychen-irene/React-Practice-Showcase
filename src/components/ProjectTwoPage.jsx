@@ -1,5 +1,6 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, React } from 'react'
 import axios from 'axios'
+import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
 import Navbar, { titles } from './Navbar'
@@ -21,8 +22,17 @@ const ProjectTwoPage = () => {
   })
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
+  const [isLoading, setIsLoading] = useState(() => {
+    const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('hexToken='))
+      ?.split('=')[1]
+    return !!token
+  })
+  const [isChecking, setIsChecking] = useState(false)
 
-  const getProducts = useCallback(async () => {
+  const getProducts = useCallback(async (showLoading = true) => {
+    if (showLoading) setIsLoading(true)
     try {
       const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/admin/products`)
       setProducts(res.data.products)
@@ -44,6 +54,9 @@ const ProjectTwoPage = () => {
         title: 'Failed to load product list',
       })
     }
+    finally {
+      setIsLoading(false)
+    }
   }, [apiBaseUrl, apiPath])
 
   const handleInputChange = (e) => {
@@ -56,6 +69,7 @@ const ProjectTwoPage = () => {
   const onSubmit = async (e) => {
     try {
       e.preventDefault()
+      setIsLoading(true)
       const res = await axios.post(`${apiBaseUrl}/admin/signin`, formData)
       const { token, expired } = res.data
       document.cookie = `hexToken=${token};expires=${new Date(expired)};`
@@ -96,9 +110,13 @@ const ProjectTwoPage = () => {
         title: 'Failed to sign in',
       })
     }
+    finally {
+      setIsLoading(false)
+    }
   }
 
   const checkLogin = useCallback(async (showMsg = true) => {
+    if (showMsg) setIsChecking(true)
     try {
       // 從 Cookie 取得 Token
       const token = document.cookie
@@ -111,7 +129,7 @@ const ProjectTwoPage = () => {
         // 驗證 Token 是否有效
         // eslint-disable-next-line
         const res = await axios.post(`${apiBaseUrl}/api/user/check`)
-        getProducts()
+        await getProducts(false)
         if (showMsg) {
           const Toast = Swal.mixin({
             toast: true,
@@ -132,6 +150,7 @@ const ProjectTwoPage = () => {
       }
     }
     catch {
+      setIsLoading(false)
       setTimeout(() => setIsAuth(false), 0)
       if (showMsg) {
         const Toast = Swal.mixin({
@@ -150,6 +169,9 @@ const ProjectTwoPage = () => {
           title: 'Check failed: token is invalid',
         })
       }
+    }
+    finally {
+      if (showMsg) setIsChecking(false)
     }
   }, [apiBaseUrl, getProducts])
 
@@ -193,7 +215,8 @@ const ProjectTwoPage = () => {
               <div className="container-fluid">
                 <div className="row mt-5 row-col-2">
                   <div className="col">
-                    <button className="btn btn-secondary mb-5" type="button" onClick={checkLogin}>
+                    <button className="btn btn-secondary mb-5" type="button" onClick={checkLogin} disabled={isChecking}>
+                      {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
                       確認登入狀態
                     </button>
 
@@ -208,15 +231,27 @@ const ProjectTwoPage = () => {
                       此列表僅供作業練習與面試使用，非商業性質用途
                     </p>
                     <table className="table table-dark table-striped table-bordered border-secondary">
-                      <thead className="">
-                        <tr>
-                          <th>產品名稱</th>
-                          <th>原價</th>
-                          <th>售價</th>
-                          <th>是否啟用</th>
-                          <th>查看細節</th>
-                        </tr>
-                      </thead>
+                      {!isLoading
+                        ? (
+                            <thead className="">
+                              <tr>
+                                <th>產品名稱</th>
+                                <th>原價</th>
+                                <th>售價</th>
+                                <th>是否啟用</th>
+                                <th>查看細節</th>
+                              </tr>
+                            </thead>
+                          )
+                        : (
+                            <thead className="spinner-border m-5 text-light" role="status">
+                              <tr>
+                                <th className="visually-hidden">Loading...</th>
+                              </tr>
+                            </thead>
+
+                          )}
+
                       <tbody>
                         {products.map(products => (
                           <tr key={products.id}>
@@ -281,45 +316,55 @@ const ProjectTwoPage = () => {
               </div>
             )
           : (
-              <div className="container login">
-                <h2>請先登入</h2>
-                <form className="form-floating" onSubmit={onSubmit}>
-                  <div className="form-floating mb-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="username"
-                      name="username"
-                      placeholder="name@example.com"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      required
-                      autoFocus
-                    />
-                    <label htmlFor="username">Email address</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      name="password"
-                      placeholder="Password"
-                      value={formData.password}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    <label htmlFor="password">Password</label>
-                  </div>
-                  <button
-                    className="btn btn-lg btn-secondary w-20 mt-4"
-                    type="submit"
-                  >
-                    登入
-                  </button>
-                </form>
-              </div>
 
+              <div className="d-flex justify-content-center">
+                {!isLoading
+                  ? (
+                      <div className="container login">
+                        <h2>請先登入</h2>
+                        <form className="form-floating" onSubmit={onSubmit}>
+                          <div className="form-floating mb-3">
+                            <input
+                              type="email"
+                              className="form-control"
+                              id="username"
+                              name="username"
+                              placeholder="name@example.com"
+                              value={formData.username}
+                              onChange={handleInputChange}
+                              required
+                              autoFocus
+                            />
+                            <label htmlFor="username">Email address</label>
+                          </div>
+                          <div className="form-floating">
+                            <input
+                              type="password"
+                              className="form-control"
+                              id="password"
+                              name="password"
+                              placeholder="Password"
+                              value={formData.password}
+                              onChange={handleInputChange}
+                              required
+                            />
+                            <label htmlFor="password">Password</label>
+                          </div>
+                          <button
+                            className="btn btn-lg btn-secondary w-20 mt-4"
+                            type="submit"
+                          >
+                            登入
+                          </button>
+                        </form>
+                      </div>
+                    )
+                  : (
+                      <div className="spinner-border m-5 text-light" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    )}
+              </div>
             )}
         <Footer />
       </div>
