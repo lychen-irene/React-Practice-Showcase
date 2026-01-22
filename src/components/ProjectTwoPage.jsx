@@ -6,6 +6,136 @@ import Swal from 'sweetalert2'
 import Navbar, { titles } from './Navbar'
 import Footer from './Footer'
 
+// Login form page
+const LoginForm = ({ onSubmit, formData, onChange }) => {
+  return (
+    <div className="container login">
+      <h2>請先登入</h2>
+      <form className="form-floating" onSubmit={onSubmit}>
+        <div className="form-floating mb-3">
+          <input
+            type="email"
+            className="form-control"
+            id="username"
+            name="username"
+            placeholder="name@example.com"
+            value={formData.username}
+            onChange={onChange}
+            required
+            autoFocus
+          />
+          <label htmlFor="username">Email address</label>
+        </div>
+        <div className="form-floating">
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={onChange}
+            required
+          />
+          <label htmlFor="password">Password</label>
+        </div>
+        <button
+          className="btn btn-lg btn-secondary w-20 mt-4"
+          type="submit"
+        >
+          登入
+        </button>
+      </form>
+    </div>
+  )
+}
+
+// Login loading animation
+const LoginLoading = () => {
+  return (
+    <div className="spinner-border m-5 text-light" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+  )
+}
+
+// Get login token from cookie
+const getToken = () => {
+  return document.cookie
+    .split('; ')
+    .find(row => row.startsWith('hexToken='))
+    ?.split('=')[1]
+}
+// const function statement only due to document.cookie changes over time (e.g., after login)
+
+// SweetAlert popup type
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer
+    toast.onmouseleave = Swal.resumeTimer
+  },
+})
+
+// Check login status button
+const CheckLoginButton = ({ onClick, isChecking }) => {
+  return (
+    <button className="btn btn-secondary mb-5" type="button" onClick={onClick} disabled={isChecking}>
+      {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
+      確認登入狀態
+    </button>
+  )
+}
+
+// Product thead
+const ProductsThead = () => {
+  return (
+    <thead>
+      <tr>
+        <th>產品名稱</th>
+        <th>原價</th>
+        <th>售價</th>
+        <th>是否啟用</th>
+        <th>查看細節</th>
+      </tr>
+    </thead>
+  )
+}
+
+// Products list table
+const ProductsList = ({ product, onClick }) => {
+  return (
+    <>
+      <tr key={product.id}>
+        <td className="align-middle">{product.title}</td>
+        <td className="align-middle">{product.origin_price}</td>
+        <td className="align-middle">{product.price}</td>
+        <td className="align-middle">
+          {product.is_enabled ? '已啟用' : '未啟用'}
+        </td>
+        <td className="align-middle">
+          <button className="btn btn-primary" onClick={onClick}>查看細節</button>
+        </td>
+      </tr>
+    </>
+  )
+}
+
+// Product loading animation
+const ProductsLoading = () => {
+  return (
+    <thead className="spinner-border m-5 text-light" role="status">
+      <tr>
+        <th className="visually-hidden">Loading...</th>
+      </tr>
+    </thead>
+  )
+}
+
 const ProjectTwoPage = () => {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
@@ -13,22 +143,10 @@ const ProjectTwoPage = () => {
     username: '',
     password: '',
   })
-  const [isAuth, setIsAuth] = useState(() => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('hexToken='))
-      ?.split('=')[1]
-    return token
-  })
+  const [isAuth, setIsAuth] = useState(() => getToken())
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
-  const [isLoading, setIsLoading] = useState(() => {
-    const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('hexToken='))
-      ?.split('=')[1]
-    return token
-  })
+  const [isLoading, setIsLoading] = useState(() => getToken())
   const [isChecking, setIsChecking] = useState(false)
 
   const getProducts = useCallback(async (showLoading = true) => {
@@ -38,17 +156,6 @@ const ProjectTwoPage = () => {
       setProducts(res.data.products)
     }
     catch {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer
-          toast.onmouseleave = Swal.resumeTimer
-        },
-      })
       Toast.fire({
         icon: 'error',
         title: 'Failed to load product list',
@@ -76,17 +183,6 @@ const ProjectTwoPage = () => {
       axios.defaults.headers.common['Authorization'] = token
       await getProducts(true)
       setIsAuth(true)
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer
-          toast.onmouseleave = Swal.resumeTimer
-        },
-      })
       Toast.fire({
         icon: 'success',
         title: 'Signed in successfully',
@@ -94,17 +190,6 @@ const ProjectTwoPage = () => {
     }
     catch {
       setIsAuth(false)
-      const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer
-          toast.onmouseleave = Swal.resumeTimer
-        },
-      })
       Toast.fire({
         icon: 'error',
         title: 'Failed to sign in',
@@ -119,10 +204,7 @@ const ProjectTwoPage = () => {
     if (showMsg) setIsChecking(true)
     try {
       // 從 Cookie 取得 Token
-      const token = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('hexToken='))
-        ?.split('=')[1]
+      const token = getToken()
 
       if (token) {
         axios.defaults.headers.common['Authorization'] = token
@@ -131,17 +213,6 @@ const ProjectTwoPage = () => {
         const res = await axios.post(`${apiBaseUrl}/api/user/check`)
         await getProducts(false)
         if (showMsg) {
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer
-              toast.onmouseleave = Swal.resumeTimer
-            },
-          })
           Toast.fire({
             icon: 'success',
             title: 'Check success: token is valid',
@@ -153,17 +224,6 @@ const ProjectTwoPage = () => {
       setIsLoading(false)
       setTimeout(() => setIsAuth(false), 0)
       if (showMsg) {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer
-            toast.onmouseleave = Swal.resumeTimer
-          },
-        })
         Toast.fire({
           icon: 'error',
           title: 'Check failed: token is invalid',
@@ -215,10 +275,7 @@ const ProjectTwoPage = () => {
               <div className="container-fluid">
                 <div className="row mt-5 row-col-2">
                   <div className="col">
-                    <button className="btn btn-secondary mb-5" type="button" onClick={checkLogin} disabled={isChecking}>
-                      {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
-                      確認登入狀態
-                    </button>
+                    <CheckLoginButton onClick={checkLogin} isChecking={isChecking} />
 
                     <h2>產品列表</h2>
                     <p>
@@ -233,38 +290,14 @@ const ProjectTwoPage = () => {
                     <table className="table table-dark table-striped table-bordered border-secondary">
                       {!isLoading
                         ? (
-                            <thead className="">
-                              <tr>
-                                <th>產品名稱</th>
-                                <th>原價</th>
-                                <th>售價</th>
-                                <th>是否啟用</th>
-                                <th>查看細節</th>
-                              </tr>
-                            </thead>
+                            <ProductsThead />
                           )
                         : (
-                            <thead className="spinner-border m-5 text-light" role="status">
-                              <tr>
-                                <th className="visually-hidden">Loading...</th>
-                              </tr>
-                            </thead>
-
+                            <ProductsLoading />
                           )}
-
                       <tbody>
-                        {products.map(products => (
-                          <tr key={products.id}>
-                            <td className="align-middle">{products.title}</td>
-                            <td className="align-middle">{products.origin_price}</td>
-                            <td className="align-middle">{products.price}</td>
-                            <td className="align-middle">
-                              {products.is_enabled ? '已啟用' : '未啟用'}
-                            </td>
-                            <td className="align-middle">
-                              <button className="btn btn-primary" onClick={() => setTempProduct(products)}>查看細節</button>
-                            </td>
-                          </tr>
+                        {products.map(product => (
+                          <ProductsList key={product.id} product={product} onClick={() => setTempProduct(product)} />
                         ))}
                       </tbody>
                     </table>
@@ -318,49 +351,10 @@ const ProjectTwoPage = () => {
               <div className="d-flex justify-content-center">
                 {!isLoading
                   ? (
-                      <div className="container login">
-                        <h2>請先登入</h2>
-                        <form className="form-floating" onSubmit={onSubmit}>
-                          <div className="form-floating mb-3">
-                            <input
-                              type="email"
-                              className="form-control"
-                              id="username"
-                              name="username"
-                              placeholder="name@example.com"
-                              value={formData.username}
-                              onChange={handleInputChange}
-                              required
-                              autoFocus
-                            />
-                            <label htmlFor="username">Email address</label>
-                          </div>
-                          <div className="form-floating">
-                            <input
-                              type="password"
-                              className="form-control"
-                              id="password"
-                              name="password"
-                              placeholder="Password"
-                              value={formData.password}
-                              onChange={handleInputChange}
-                              required
-                            />
-                            <label htmlFor="password">Password</label>
-                          </div>
-                          <button
-                            className="btn btn-lg btn-secondary w-20 mt-4"
-                            type="submit"
-                          >
-                            登入
-                          </button>
-                        </form>
-                      </div>
+                      <LoginForm onSubmit={onSubmit} formData={formData} onChange={handleInputChange} />
                     )
                   : (
-                      <div className="spinner-border m-5 text-light" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
+                      <LoginLoading />
                     )}
               </div>
             )}
