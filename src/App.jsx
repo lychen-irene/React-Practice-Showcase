@@ -1,6 +1,6 @@
-// eslint-disable-next-line
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
+import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Navbar, { titles } from './components/Navbar'
 import Footer from './components/Footer'
 import reactLogo from './assets/react.svg'

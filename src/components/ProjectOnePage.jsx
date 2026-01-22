@@ -1,7 +1,7 @@
-// eslint-disable-next-line
-import { useEffect, useState } from 'react'
-import Navbar, { titles } from '../components/Navbar'
-import Footer from '../components/Footer'
+import { useState } from 'react'
+import Navbar, { titles } from './Navbar'
+import Footer from './Footer'
+import 'bootstrap' // loads Bootstrap's JavaScript plugins
 
 const ProjectOnePage = () => {
   const [tempProduct, setTempProduct] = useState(null)
