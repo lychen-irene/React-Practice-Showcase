@@ -74,7 +74,7 @@ const ProjectTwoPage = () => {
       const { token, expired } = res.data
       document.cookie = `hexToken=${token};expires=${new Date(expired)};`
       axios.defaults.headers.common['Authorization'] = token
-      getProducts()
+      await getProducts(true)
       setIsAuth(true)
       const Toast = Swal.mixin({
         toast: true,
