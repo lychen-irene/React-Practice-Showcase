@@ -207,11 +207,12 @@ const ProjectTwoPage = () => {
       const token = getToken()
 
       if (token) {
+        setIsLoading(true)
         axios.defaults.headers.common['Authorization'] = token
         // 驗證 Token 是否有效
         // eslint-disable-next-line
         const res = await axios.post(`${apiBaseUrl}/api/user/check`)
-        await getProducts(false)
+        await getProducts(true)
         if (showMsg) {
           Toast.fire({
             icon: 'success',
@@ -290,16 +291,18 @@ const ProjectTwoPage = () => {
                     <table className="table table-dark table-striped table-bordered border-secondary">
                       {!isLoading
                         ? (
-                            <ProductsThead />
+                            <>
+                              <ProductsThead />
+                              <tbody>
+                                {products.map(product => (
+                                  <ProductsList key={product.id} product={product} onClick={() => setTempProduct(product)} />
+                                ))}
+                              </tbody>
+                            </>
                           )
                         : (
                             <ProductsLoading />
                           )}
-                      <tbody>
-                        {products.map(product => (
-                          <ProductsList key={product.id} product={product} onClick={() => setTempProduct(product)} />
-                        ))}
-                      </tbody>
                     </table>
                   </div>
                   <div className="col">
