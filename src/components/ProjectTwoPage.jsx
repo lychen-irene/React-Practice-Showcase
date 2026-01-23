@@ -198,11 +198,11 @@ const ProjectTwoPage = function () {
     username: '',
     password: '',
   })
-  const [isAuth, setIsAuth] = useState(() => getToken())
+  const [authStatus, setAuthStatus] = useState(() => getToken() ? 'loading' : 'unauth')
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
   const [isLoginLoading, setIsLoginLoading] = useState(false)
-  const [isProductsLoading, setIsProductsLoading] = useState(() => getToken())
+  const [isProductsLoading, setIsProductsLoading] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
 
   // Catch login form input content
@@ -222,14 +222,14 @@ const ProjectTwoPage = function () {
       document.cookie = `hexToken=${token};expires=${new Date(expired)};`
       axios.defaults.headers.common['Authorization'] = token
       await getProducts(true)
-      setIsAuth(true)
+      setAuthStatus('auth')
       Toast.fire({
         icon: 'success',
         title: 'Signed in successfully',
       })
     }
     catch {
-      setIsAuth(false)
+      setAuthStatus('unauth')
       Toast.fire({
         icon: 'error',
         title: 'Failed to sign in',
@@ -271,6 +271,7 @@ const ProjectTwoPage = function () {
         // eslint-disable-next-line
         const res = await axios.post(`${apiBaseUrl}/api/user/check`)
         await getProducts(false) // 靜默更新，不觸發產品 loading
+        setAuthStatus('auth')
         if (showMsg) {
           Toast.fire({
             icon: 'success',
@@ -279,7 +280,7 @@ const ProjectTwoPage = function () {
         }
       }
       else {
-        setIsAuth(false)
+        setAuthStatus('unauth')
         if (showMsg) {
           Toast.fire({
             icon: 'error',
@@ -290,7 +291,7 @@ const ProjectTwoPage = function () {
     }
     catch {
       setTimeout(function () {
-        setIsAuth(false)
+        setAuthStatus('unauth')
       }, 0)
       if (showMsg) {
         Toast.fire({
@@ -325,7 +326,7 @@ const ProjectTwoPage = function () {
         if (error.response?.status === 401) {
           // delete cookie by setting expired time into past time
           document.cookie = 'hexToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;'
-          setIsAuth(false)
+          setAuthStatus('unauth')
           Toast.fire({
             icon: 'error',
             title: 'Token is invalid, please sign in again',
@@ -365,61 +366,64 @@ const ProjectTwoPage = function () {
             )
           })}
         </Navbar>
-        {isAuth
-          ? (
-              <div className="container-fluid">
-                <div className="row mt-5 row-col-2">
-                  <div className="col">
-                    <CheckLoginButton onClick={checkLogin} isChecking={isChecking} />
+        {authStatus === 'loading' && (
+          <div className="d-flex justify-content-center">
+            <LoginLoading />
+          </div>
+        )}
+        {authStatus === 'auth' && (
+          <div className="container-fluid">
+            <div className="row mt-5 row-col-2">
+              <div className="col">
+                <CheckLoginButton onClick={checkLogin} isChecking={isChecking} />
 
-                    <h2>產品列表</h2>
-                    <p>
-                      以下產品資料來源為
-                      {/* rel="noopener noreferrer" for prevent phishing */}
-                      {' '}
-                      {/* space within text */}
-                      <a href="https://www.stonexp.idv.tw/i.h?cls=40&pg=0,1" target="_blank" rel="noopener noreferrer">石探紀：茶包的礦物化石網站</a>
-                      <br />
-                      此列表僅供作業練習與面試使用，非商業性質用途
-                    </p>
-                    <table className="table table-dark table-striped table-bordered border-secondary">
-                      {!isProductsLoading
-                        ? (
-                            <>
-                              <ProductsThead />
-                              <ProductsList products={products} onProductClick={setTempProduct} />
-                            </>
-                          )
-                        : (
-                            <ProductsLoading />
-                          )}
-                    </table>
-                  </div>
-                  <div className="col">
-                    <h2>單一產品細節</h2>
-                    {tempProduct
-                      ? (
-                          <ProductDetail product={tempProduct} />
-                        )
-                      : (
-                          <p className="text-secondary">請選擇一個商品查看</p>
-                        )}
-                  </div>
-                </div>
+                <h2>產品列表</h2>
+                <p>
+                  以下產品資料來源為
+                  {/* rel="noopener noreferrer" for prevent phishing */}
+                  {' '}
+                  {/* space within text */}
+                  <a href="https://www.stonexp.idv.tw/i.h?cls=40&pg=0,1" target="_blank" rel="noopener noreferrer">石探紀：茶包的礦物化石網站</a>
+                  <br />
+                  此列表僅供作業練習與面試使用，非商業性質用途
+                </p>
+                <table className="table table-dark table-striped table-bordered border-secondary">
+                  {!isProductsLoading
+                    ? (
+                        <>
+                          <ProductsThead />
+                          <ProductsList products={products} onProductClick={setTempProduct} />
+                        </>
+                      )
+                    : (
+                        <ProductsLoading />
+                      )}
+                </table>
               </div>
-            )
-          : (
-
-              <div className="d-flex justify-content-center">
-                {!isLoginLoading
+              <div className="col">
+                <h2>單一產品細節</h2>
+                {tempProduct
                   ? (
-                      <LoginForm onSubmit={onSubmit} formData={formData} onChange={handleInputChange} />
+                      <ProductDetail product={tempProduct} />
                     )
                   : (
-                      <LoginLoading />
+                      <p className="text-secondary">請選擇一個商品查看</p>
                     )}
               </div>
-            )}
+            </div>
+          </div>
+        )}
+        {authStatus === 'unauth' && (
+          <div className="d-flex justify-content-center">
+            {!isLoginLoading
+              ? (
+                  <LoginForm onSubmit={onSubmit} formData={formData} onChange={handleInputChange} />
+                )
+              : (
+                  <LoginLoading />
+                )}
+          </div>
+        )}
         <Footer />
       </div>
     </>
