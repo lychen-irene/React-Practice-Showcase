@@ -205,13 +205,14 @@ const ProjectTwoPage = function () {
   const [isProductsLoading, setIsProductsLoading] = useState(() => getToken())
   const [isChecking, setIsChecking] = useState(false)
 
+  // Catch login form input content
   const handleInputChange = function (e) {
     const { name, value } = e.target
     setFormData(preData => ({
       ...preData,
       [name]: value }))
   }
-
+  // Action after clicking login button
   const onSubmit = async function (e) {
     try {
       e.preventDefault()
@@ -239,6 +240,7 @@ const ProjectTwoPage = function () {
     }
   }
 
+  // Get all products info from API
   const getProducts = useCallback(async function (showLoading = true) {
     if (showLoading) setIsProductsLoading(true)
     try {
@@ -256,6 +258,7 @@ const ProjectTwoPage = function () {
     }
   }, [apiBaseUrl, apiPath])
 
+  // Check token is valid or not by checkLogin buttun
   const checkLogin = useCallback(async function (showMsg = true) {
     if (showMsg) setIsChecking(true)
     try {
@@ -272,6 +275,15 @@ const ProjectTwoPage = function () {
           Toast.fire({
             icon: 'success',
             title: 'Check success: token is valid',
+          })
+        }
+      }
+      else {
+        setIsAuth(false)
+        if (showMsg) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Check failed: token not found, please sign in again',
           })
         }
       }
@@ -292,6 +304,7 @@ const ProjectTwoPage = function () {
     }
   }, [apiBaseUrl, getProducts])
 
+  // Prevent checkLogin and SweetAlert popup run twice
   const hasChecked = useRef(false)
   useEffect(function () {
     if (!hasChecked.current) {
@@ -302,6 +315,31 @@ const ProjectTwoPage = function () {
       }, 0)
     }
   }, [checkLogin])
+
+  // Auto logout when other 401 error comes out
+  useEffect(() => {
+    // 註冊 interceptor
+    const interceptor = axios.interceptors.response.use(
+      response => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          // delete cookie by setting expired time into past time
+          document.cookie = 'hexToken=; expires=Thu, 01 Jan 1970 00:00:00 GMT;'
+          setIsAuth(false)
+          Toast.fire({
+            icon: 'error',
+            title: 'Token is invalid, please sign in again',
+          })
+        }
+        return Promise.reject(error)
+      },
+    )
+
+    // 清除 interceptor（元件卸載時）
+    return () => {
+      axios.interceptors.response.eject(interceptor)
+    }
+  }, [])
 
   return (
     <>
