@@ -7,7 +7,7 @@ import Navbar, { titles } from './Navbar'
 import Footer from './Footer'
 
 // Login form page
-const LoginForm = ({ onSubmit, formData, onChange }) => {
+const LoginForm = function ({ onSubmit, formData, onChange }) {
   return (
     <div className="container login">
       <h2>請先登入</h2>
@@ -51,7 +51,7 @@ const LoginForm = ({ onSubmit, formData, onChange }) => {
 }
 
 // Login loading animation
-const LoginLoading = () => {
+const LoginLoading = function () {
   return (
     <div className="spinner-border m-5 text-light" role="status">
       <span className="visually-hidden">Loading...</span>
@@ -60,7 +60,7 @@ const LoginLoading = () => {
 }
 
 // Get login token from cookie
-const getToken = () => {
+const getToken = function () {
   return document.cookie
     .split('; ')
     .find(row => row.startsWith('hexToken='))
@@ -82,7 +82,7 @@ const Toast = Swal.mixin({
 })
 
 // Check login status button
-const CheckLoginButton = ({ onClick, isChecking }) => {
+const CheckLoginButton = function ({ onClick, isChecking }) {
   return (
     <button className="btn btn-secondary mb-5" type="button" onClick={onClick} disabled={isChecking}>
       {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
@@ -92,7 +92,7 @@ const CheckLoginButton = ({ onClick, isChecking }) => {
 }
 
 // Product thead
-const ProductsThead = () => {
+const ProductsThead = function () {
   return (
     <thead>
       <tr>
@@ -107,26 +107,42 @@ const ProductsThead = () => {
 }
 
 // Products list table
-const ProductsList = ({ product, onClick }) => {
+// 第二層：負責單一 <tr> 的渲染
+const ProductRow = function ({ product, onClick }) {
   return (
-    <>
-      <tr key={product.id}>
-        <td className="align-middle">{product.title}</td>
-        <td className="align-middle">{product.origin_price}</td>
-        <td className="align-middle">{product.price}</td>
-        <td className="align-middle">
-          {product.is_enabled ? '已啟用' : '未啟用'}
-        </td>
-        <td className="align-middle">
-          <button className="btn btn-primary" onClick={onClick}>查看細節</button>
-        </td>
-      </tr>
-    </>
+    <tr>
+      <td className="align-middle">{product.title}</td>
+      <td className="align-middle">{product.origin_price}</td>
+      <td className="align-middle">{product.price}</td>
+      <td className="align-middle">
+        {product.is_enabled ? '已啟用' : '未啟用'}
+      </td>
+      <td className="align-middle">
+        <button className="btn btn-primary" onClick={onClick}>
+          查看細節
+        </button>
+      </td>
+    </tr>
+  )
+}
+
+// 第一層：負責 <tbody> + .map()
+const ProductsList = function ({ products, onProductClick }) {
+  return (
+    <tbody>
+      {products.map(product => (
+        <ProductRow
+          key={product.id}
+          product={product}
+          onClick={() => onProductClick(product)}
+        />
+      ))}
+    </tbody>
   )
 }
 
 // Product loading animation
-const ProductsLoading = () => {
+const ProductsLoading = function () {
   return (
     <thead className="spinner-border m-5 text-light" role="status">
       <tr>
@@ -136,7 +152,46 @@ const ProductsLoading = () => {
   )
 }
 
-const ProjectTwoPage = () => {
+// Single product detail
+const ProductDetail = function ({ product }) {
+  return (
+    <div className="card border-secondary mb-3">
+      {product.imageUrl && <img src={product.imageUrl} className="card-img-top primary-image" alt={product.title} referrerPolicy="no-referrer" />}
+      <div className="card-body">
+        <h5 className="card-title">
+          {product.title}
+          <span className="badge bg-secondary ms-2">{product.category}</span>
+        </h5>
+        <p className="card-text">
+          商品描述：
+          {product.description}
+        </p>
+        <p className="card-text">
+          商品內容：
+          {product.content}
+        </p>
+        <div className="d-flex">
+          <p className="card-text text-secondary"><del>{product.origin_price}</del></p>
+          元 /
+          {product.price}
+          元
+        </div>
+        <h5 className="mt-3">更多圖片：</h5>
+        <div className="d-flex flex-wrap">
+          {product.imagesUrl?.map((url, index) => {
+            if (!url) return null
+            return (
+              <img key={index} src={url} className="card-img-top" alt={product.title} referrerPolicy="no-referrer" />
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Main Content
+const ProjectTwoPage = function () {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
   const [formData, setFormData] = useState({
@@ -146,37 +201,21 @@ const ProjectTwoPage = () => {
   const [isAuth, setIsAuth] = useState(() => getToken())
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
-  const [isLoading, setIsLoading] = useState(() => getToken())
+  const [isLoginLoading, setIsLoginLoading] = useState(false)
+  const [isProductsLoading, setIsProductsLoading] = useState(() => getToken())
   const [isChecking, setIsChecking] = useState(false)
 
-  const getProducts = useCallback(async (showLoading = true) => {
-    if (showLoading) setIsLoading(true)
-    try {
-      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/admin/products`)
-      setProducts(res.data.products)
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Failed to load product list',
-      })
-    }
-    finally {
-      setIsLoading(false)
-    }
-  }, [apiBaseUrl, apiPath])
-
-  const handleInputChange = (e) => {
+  const handleInputChange = function (e) {
     const { name, value } = e.target
     setFormData(preData => ({
       ...preData,
       [name]: value }))
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async function (e) {
     try {
       e.preventDefault()
-      setIsLoading(true)
+      setIsLoginLoading(true)
       const res = await axios.post(`${apiBaseUrl}/admin/signin`, formData)
       const { token, expired } = res.data
       document.cookie = `hexToken=${token};expires=${new Date(expired)};`
@@ -196,23 +235,39 @@ const ProjectTwoPage = () => {
       })
     }
     finally {
-      setIsLoading(false)
+      setIsLoginLoading(false)
     }
   }
 
-  const checkLogin = useCallback(async (showMsg = true) => {
+  const getProducts = useCallback(async function (showLoading = true) {
+    if (showLoading) setIsProductsLoading(true)
+    try {
+      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/admin/products`)
+      setProducts(res.data.products)
+    }
+    catch {
+      Toast.fire({
+        icon: 'error',
+        title: 'Failed to load product list',
+      })
+    }
+    finally {
+      setIsProductsLoading(false)
+    }
+  }, [apiBaseUrl, apiPath])
+
+  const checkLogin = useCallback(async function (showMsg = true) {
     if (showMsg) setIsChecking(true)
     try {
       // 從 Cookie 取得 Token
       const token = getToken()
 
       if (token) {
-        setIsLoading(true)
         axios.defaults.headers.common['Authorization'] = token
         // 驗證 Token 是否有效
         // eslint-disable-next-line
         const res = await axios.post(`${apiBaseUrl}/api/user/check`)
-        await getProducts(true)
+        await getProducts(false) // 靜默更新，不觸發產品 loading
         if (showMsg) {
           Toast.fire({
             icon: 'success',
@@ -222,8 +277,9 @@ const ProjectTwoPage = () => {
       }
     }
     catch {
-      setIsLoading(false)
-      setTimeout(() => setIsAuth(false), 0)
+      setTimeout(function () {
+        setIsAuth(false)
+      }, 0)
       if (showMsg) {
         Toast.fire({
           icon: 'error',
@@ -237,7 +293,7 @@ const ProjectTwoPage = () => {
   }, [apiBaseUrl, getProducts])
 
   const hasChecked = useRef(false)
-  useEffect(() => {
+  useEffect(function () {
     if (!hasChecked.current) {
       hasChecked.current = true // prevent checkLogin run twice on strict mode
       setTimeout(() => {
@@ -251,7 +307,7 @@ const ProjectTwoPage = () => {
     <>
       <div>
         <Navbar>
-          {titles.map((item) => {
+          {titles.map(function (item) {
             return (
               <li className="nav-item" key={item.id}>
                 {
@@ -289,15 +345,11 @@ const ProjectTwoPage = () => {
                       此列表僅供作業練習與面試使用，非商業性質用途
                     </p>
                     <table className="table table-dark table-striped table-bordered border-secondary">
-                      {!isLoading
+                      {!isProductsLoading
                         ? (
                             <>
                               <ProductsThead />
-                              <tbody>
-                                {products.map(product => (
-                                  <ProductsList key={product.id} product={product} onClick={() => setTempProduct(product)} />
-                                ))}
-                              </tbody>
+                              <ProductsList products={products} onProductClick={setTempProduct} />
                             </>
                           )
                         : (
@@ -309,38 +361,7 @@ const ProjectTwoPage = () => {
                     <h2>單一產品細節</h2>
                     {tempProduct
                       ? (
-                          <div className="card border-secondary mb-3">
-                            {tempProduct.imageUrl && <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt={tempProduct.title} referrerPolicy="no-referrer" />}
-                            <div className="card-body">
-                              <h5 className="card-title">
-                                {tempProduct.title}
-                                <span className="badge bg-secondary ms-2">{tempProduct.category}</span>
-                              </h5>
-                              <p className="card-text">
-                                商品描述：
-                                {tempProduct.description}
-                              </p>
-                              <p className="card-text">
-                                商品內容：
-                                {tempProduct.content}
-                              </p>
-                              <div className="d-flex">
-                                <p className="card-text text-secondary"><del>{tempProduct.origin_price}</del></p>
-                                元 /
-                                {tempProduct.price}
-                                元
-                              </div>
-                              <h5 className="mt-3">更多圖片：</h5>
-                              <div className="d-flex flex-wrap">
-                                {tempProduct.imagesUrl?.map((url, index) => {
-                                  if (!url) return null
-                                  return (
-                                    <img key={index} src={url} className="card-img-top" alt={tempProduct.title} referrerPolicy="no-referrer" />
-                                  )
-                                })}
-                              </div>
-                            </div>
-                          </div>
+                          <ProductDetail product={tempProduct} />
                         )
                       : (
                           <p className="text-secondary">請選擇一個商品查看</p>
@@ -352,7 +373,7 @@ const ProjectTwoPage = () => {
           : (
 
               <div className="d-flex justify-content-center">
-                {!isLoading
+                {!isLoginLoading
                   ? (
                       <LoginForm onSubmit={onSubmit} formData={formData} onChange={handleInputChange} />
                     )
