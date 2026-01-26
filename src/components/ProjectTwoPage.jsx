@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef, React } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
