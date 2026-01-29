@@ -21,6 +21,7 @@ body {
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    --navbar-height: 56px;
   }
 
 .logo {
@@ -134,3 +135,14 @@ h2 {
 a {
     color: #3892c6;
 }
+
+// Project-3
+.sticky-header {
+    position: sticky;
+    top: var(--navbar-height);
+    background:  #242424;  /* 重要：需要背景色，否則捲動時會「穿透」 */
+    z-index: 10;        /* 確保在表格之上 */
+  }
+  .text-red {
+    color: $red;
+  }
