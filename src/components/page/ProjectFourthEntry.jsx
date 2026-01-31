@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import ProjectThreePage from './projectThreePage'
+import ProjectFourthPage from './ProjectFourthPage'
 
-import '../../src/assets/all.scss'
+import '../../assets/all.scss'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ProjectThreePage />
+    <ProjectFourthPage />
   </StrictMode>,
 )
