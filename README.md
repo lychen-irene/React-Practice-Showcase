@@ -18,6 +18,16 @@ npm create vite@latest
 npm install gh-pages
 ```
 
+- [React Hook Form](https://react-hook-form.com/get-started)
+```
+npm install react-hook-form
+```
+
+- [React-Router](https://www.npmjs.com/package/react-router-dom)
+```
+npm install react-router-dom
+```
+
 - [Axios](https://axios-http.com/docs/intro)
 ```
 npm install axios
