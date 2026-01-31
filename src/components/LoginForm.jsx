@@ -1,4 +1,4 @@
-const LoginForm = function (onSubmit, formData, onChange) {
+const LoginForm = function ({ onSubmit, formData, onChange }) {
   return (
     <>
       <div className="container login">
