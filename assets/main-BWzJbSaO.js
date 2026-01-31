@@ -1,0 +1,1 @@
+import{r as e,j as t,N as o,t as a,F as n,c}from"./all-DAGqaRkU.js";import{D as i}from"./DefaultPage-B9JM3q6l.js";function x(){const[s,r]=e.useState(0);return t.jsxs(t.Fragment,{children:[t.jsx(o,{title:{titles:a}}),t.jsx(i,{count:s,setCount:r}),t.jsx(n,{})]})}c.createRoot(document.getElementById("root")).render(t.jsx(e.StrictMode,{children:t.jsx(x,{})}));
