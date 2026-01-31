@@ -1,64 +1,16 @@
 import { useState } from 'react'
 
-import 'bootstrap' // loads Bootstrap's JavaScript plugins
+import 'bootstrap'
 import Navbar, { titles } from './components/Navbar'
+import DefaultPage from './components/page/DefaultPage'
 import Footer from './components/Footer'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 
 function App() {
   const [count, setCount] = useState(0)
   return (
     <>
-      <Navbar>
-        {titles.map((item) => {
-          return (
-            <li className="nav-item" key={item.id}>
-              {
-                item.title === 'About'
-                  ? (
-                      <a className="nav-link" aria-current="page" href={item.url}>
-                        {item.title}
-                      </a>
-                    )
-                  : (
-                      <a className="nav-link" href={item.url}>
-                        {item.title}
-                      </a>
-                    )
-              }
-
-            </li>
-          )
-        })}
-      </Navbar>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card-sample">
-        <button className="btn btn-secondary" onClick={() => setCount(count => count + 1)}>
-          count is
-          {' '}
-          {count}
-        </button>
-        <p>
-          Edit
-          {' '}
-          <code>src/App.jsx</code>
-          {' '}
-          and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-
+      <Navbar title={{ titles }} />
+      <DefaultPage count={count} setCount={setCount} />
       <Footer />
     </>
   )

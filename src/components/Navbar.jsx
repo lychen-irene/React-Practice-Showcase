@@ -5,9 +5,10 @@ export const titles = [
   { id: 2, title: 'Project-1', url: `${basePath}/projectOne.html` },
   { id: 3, title: 'Project-2', url: `${basePath}/projectTwo.html` },
   { id: 4, title: 'Project-3', url: `${basePath}/projectThree.html` },
+  { id: 5, title: 'Project-4', url: `${basePath}/projectFourth.html` },
 ]
 
-const Navbar = ({ children }) => {
+const Navbar = () => {
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-sm navbar-dark">
@@ -19,7 +20,28 @@ const Navbar = ({ children }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto">{children}</ul>
+            <ul className="navbar-nav me-auto">
+              {titles.map((item) => {
+                return (
+                  <li className="nav-item" key={item.id}>
+                    {
+                      item.title === 'About'
+                        ? (
+                            <a className="nav-link" aria-current="page" href={item.url}>
+                              {item.title}
+                            </a>
+                          )
+                        : (
+                            <a className="nav-link" href={item.url}>
+                              {item.title}
+                            </a>
+                          )
+                    }
+
+                  </li>
+                )
+              })}
+            </ul>
           </div>
         </div>
       </nav>

@@ -3,61 +3,14 @@ import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from './Navbar'
-import Footer from './Footer'
-
-// Login form page
-const LoginForm = function ({ onSubmit, formData, onChange }) {
-  return (
-    <div className="container login">
-      <h2>請先登入</h2>
-      <form className="form-floating" onSubmit={onSubmit}>
-        <div className="form-floating mb-3">
-          <input
-            type="email"
-            className="form-control"
-            id="username"
-            name="username"
-            placeholder="name@example.com"
-            value={formData.username}
-            onChange={onChange}
-            required
-            autoFocus
-          />
-          <label htmlFor="username">Email address</label>
-        </div>
-        <div className="form-floating">
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={onChange}
-            required
-          />
-          <label htmlFor="password">Password</label>
-        </div>
-        <button
-          className="btn btn-lg btn-secondary w-20 mt-4"
-          type="submit"
-        >
-          登入
-        </button>
-      </form>
-    </div>
-  )
-}
-
-// Login loading animation
-const LoginLoading = function () {
-  return (
-    <div className="spinner-border m-5 text-light" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-  )
-}
+import Navbar, { titles } from '../Navbar'
+import LoginForm from '../LoginForm'
+import LoginLoading from '../LoginLoading'
+import Declaration from '../Declaration'
+import ProductHeader from '../ProductHeader'
+import ProductDetail from '../ProductDetail'
+import ProductsLoading from '../ProductsLoading'
+import Footer from '../Footer'
 
 // Get login token from cookie
 const getToken = function () {
@@ -88,105 +41,6 @@ const CheckLoginButton = function ({ onClick, isChecking }) {
       {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
       確認登入狀態
     </button>
-  )
-}
-
-// Product thead
-const ProductsThead = function () {
-  return (
-    <thead>
-      <tr>
-        <th>產品名稱</th>
-        <th>原價</th>
-        <th>售價</th>
-        <th>是否啟用</th>
-        <th>查看細節</th>
-      </tr>
-    </thead>
-  )
-}
-
-// Products list table
-// 第二層：負責單一 <tr> 的渲染
-const ProductRow = function ({ product, onClick }) {
-  return (
-    <tr>
-      <td className="align-middle">{product.title}</td>
-      <td className="align-middle">{product.origin_price}</td>
-      <td className="align-middle">{product.price}</td>
-      <td className="align-middle">
-        {product.is_enabled ? '已啟用' : '未啟用'}
-      </td>
-      <td className="align-middle">
-        <button className="btn btn-primary" onClick={onClick}>
-          查看細節
-        </button>
-      </td>
-    </tr>
-  )
-}
-
-// 第一層：負責 <tbody> + .map()
-const ProductsList = function ({ products, onProductClick }) {
-  return (
-    <tbody>
-      {products.map(product => (
-        <ProductRow
-          key={product.id}
-          product={product}
-          onClick={() => onProductClick(product)}
-        />
-      ))}
-    </tbody>
-  )
-}
-
-// Product loading animation
-const ProductsLoading = function () {
-  return (
-    <thead className="spinner-border m-5 text-light" role="status">
-      <tr>
-        <th className="visually-hidden">Loading...</th>
-      </tr>
-    </thead>
-  )
-}
-
-// Single product detail
-const ProductDetail = function ({ product }) {
-  return (
-    <div className="card border-secondary mb-3">
-      {product.imageUrl && <img src={product.imageUrl} className="card-img-top primary-image" alt={product.title} referrerPolicy="no-referrer" />}
-      <div className="card-body">
-        <h5 className="card-title">
-          {product.title}
-          <span className="badge bg-secondary ms-2">{product.category}</span>
-        </h5>
-        <p className="card-text">
-          商品描述：
-          {product.description}
-        </p>
-        <p className="card-text">
-          商品內容：
-          {product.content}
-        </p>
-        <div className="d-flex">
-          <p className="card-text text-secondary"><del>{product.origin_price}</del></p>
-          元 /
-          {product.price}
-          元
-        </div>
-        <h5 className="mt-3">更多圖片：</h5>
-        <div className="d-flex flex-wrap">
-          {product.imagesUrl?.map((url, index) => {
-            if (!url) return null
-            return (
-              <img key={index} src={url} className="card-img-top" alt={product.title} referrerPolicy="no-referrer" />
-            )
-          })}
-        </div>
-      </div>
-    </div>
   )
 }
 
@@ -345,27 +199,7 @@ const ProjectTwoPage = function () {
   return (
     <>
       <div>
-        <Navbar>
-          {titles.map(function (item) {
-            return (
-              <li className="nav-item" key={item.id}>
-                {
-                  item.title === 'About'
-                    ? (
-                        <a className="nav-link" aria-current="page" href={item.url}>
-                          {item.title}
-                        </a>
-                      )
-                    : (
-                        <a className="nav-link" href={item.url}>
-                          {item.title}
-                        </a>
-                      )
-                }
-              </li>
-            )
-          })}
-        </Navbar>
+        <Navbar title={{ titles }} />
         {authStatus === 'loading' && (
           <div className="d-flex justify-content-center">
             <LoginLoading />
@@ -377,22 +211,12 @@ const ProjectTwoPage = function () {
               <div className="col">
                 <CheckLoginButton onClick={checkLogin} isChecking={isChecking} />
 
-                <h2>產品列表</h2>
-                <p>
-                  以下產品資料來源為
-                  {/* rel="noopener noreferrer" for prevent phishing */}
-                  {' '}
-                  {/* space within text */}
-                  <a href="https://www.stonexp.idv.tw/i.h?cls=40&pg=0,1" target="_blank" rel="noopener noreferrer">石探紀：茶包的礦物化石網站</a>
-                  <br />
-                  此列表僅供作業練習與面試使用，非商業性質用途
-                </p>
+                <Declaration />
                 <table className="table table-dark table-striped table-bordered border-secondary">
                   {!isProductsLoading
                     ? (
                         <>
-                          <ProductsThead />
-                          <ProductsList products={products} onProductClick={setTempProduct} />
+                          <ProductHeader products={products} setTempProduct={setTempProduct} />
                         </>
                       )
                     : (
@@ -404,7 +228,7 @@ const ProjectTwoPage = function () {
                 <h2>單一產品細節</h2>
                 {tempProduct
                   ? (
-                      <ProductDetail product={tempProduct} />
+                      <ProductDetail tempProduct={tempProduct} />
                     )
                   : (
                       <p className="text-secondary">請選擇一個商品查看</p>
