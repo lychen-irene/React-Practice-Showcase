@@ -2,7 +2,12 @@ const ProductDetail = function ({ tempProduct }) {
   return (
     <>
       <div className="card border-secondary mb-3">
-        <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt={tempProduct.title} />
+        <img
+          src={tempProduct.imageUrl}
+          className="card-img-top primary-image"
+          alt={tempProduct.title}
+          referrerPolicy="no-referrer"
+        />
         <div className="card-body">
           <h5 className="card-title">
             {tempProduct.title}
@@ -27,7 +32,13 @@ const ProductDetail = function ({ tempProduct }) {
           <h5 className="mt-3">更多圖片：</h5>
           <div className="d-flex flex-wrap">
             {tempProduct.imagesUrl?.map((url, index) => (
-              <img key={index} src={url} className="card-img-top" alt={tempProduct.title} />
+              <img
+                key={index}
+                src={url}
+                className="card-img-top"
+                alt={tempProduct.title}
+                referrerPolicy="no-referrer"
+              />
             ))}
           </div>
         </div>
