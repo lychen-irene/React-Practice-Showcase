@@ -226,7 +226,7 @@ const ProjectThreePage = function () {
 
   // Check token is valid or not
   const checkLogin = useCallback(
-    async function (showMsg = true) {
+    async function () {
       try {
         // Get token from Cookie
         const token = getToken()
@@ -237,31 +237,12 @@ const ProjectThreePage = function () {
           const res = await axios.post(`${apiBaseUrl}/api/user/check`);
           await getProducts(false)
           setAuthStatus('auth')
-          if (showMsg) {
-            Toast.fire({
-              icon: 'success',
-              title: 'Check success: token is valid',
-            })
-          }
-        }
-        else {
-          setAuthStatus('unauth')
-          Toast.fire({
-            icon: 'error',
-            title: 'Check failed: token not found, please sign in again',
-          })
         }
       }
       catch {
         setTimeout(function () {
           setAuthStatus('unauth')
         }, 0)
-        if (showMsg) {
-          Toast.fire({
-            icon: 'error',
-            title: 'Check failed: token is invalid',
-          })
-        }
       }
     },
     [apiBaseUrl, getProducts],
@@ -271,15 +252,14 @@ const ProjectThreePage = function () {
   const hasChecked = useRef(false)
   useEffect(
     function () {
-      if (!hasChecked.current) {
-        hasChecked.current = true // prevent checkLogin run twice on strict mode
+      // Only check token if initial state is 'loading' (meaning token exists)
+      // Skip if already 'unauth' (no token from the start)
+      if (!hasChecked.current && authStatus === 'loading') // prevent checkLogin run twice on strict mode
         setTimeout(function () {
-          checkLogin(false) // SweetAlert will not be triggered because shwMsg = false
-          // checkLogin() // SweetAlert always shows when pages is refreshed
+          checkLogin()
         }, 0)
-      }
     },
-    [checkLogin],
+    [checkLogin, authStatus],
   )
 
   // Auto logout when other 401 error comes out
