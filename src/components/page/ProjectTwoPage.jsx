@@ -4,7 +4,7 @@ import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
 import Navbar, { titles } from '../Navbar'
-import LoginForm from '../LoginForm'
+import LoginForm from '../../view/LoginForm'
 import LoginLoading from '../LoginLoading'
 import Declaration from '../Declaration'
 import ProductHeader from '../ProductHeader'
@@ -48,51 +48,12 @@ const CheckLoginButton = function ({ onClick, isChecking }) {
 const ProjectTwoPage = function () {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  })
   const [authStatus, setAuthStatus] = useState(() => getToken() ? 'loading' : 'unauth')
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
   const [isLoginLoading, setIsLoginLoading] = useState(false)
   const [isProductsLoading, setIsProductsLoading] = useState(false)
   const [isChecking, setIsChecking] = useState(false)
-
-  // Catch login form input content
-  const handleInputChange = function (e) {
-    const { name, value } = e.target
-    setFormData(preData => ({
-      ...preData,
-      [name]: value }))
-  }
-  // Action after clicking login button
-  const onSubmit = async function (e) {
-    try {
-      e.preventDefault()
-      setIsLoginLoading(true)
-      const res = await axios.post(`${apiBaseUrl}/admin/signin`, formData)
-      const { token, expired } = res.data
-      document.cookie = `hexToken=${token};expires=${new Date(expired)};`
-      axios.defaults.headers.common['Authorization'] = token
-      await getProducts(true)
-      setAuthStatus('auth')
-      Toast.fire({
-        icon: 'success',
-        title: 'Signed in successfully',
-      })
-    }
-    catch {
-      setAuthStatus('unauth')
-      Toast.fire({
-        icon: 'error',
-        title: 'Failed to sign in',
-      })
-    }
-    finally {
-      setIsLoginLoading(false)
-    }
-  }
 
   // Get all products info from API
   const getProducts = useCallback(async function (showLoading = true) {
@@ -241,7 +202,11 @@ const ProjectTwoPage = function () {
           <div className="d-flex justify-content-center">
             {!isLoginLoading
               ? (
-                  <LoginForm onSubmit={onSubmit} formData={formData} onChange={handleInputChange} />
+                  <LoginForm
+                    getProducts={getProducts}
+                    setAuthStatus={setAuthStatus}
+                    setIsLoginLoading={setIsLoginLoading}
+                  />
                 )
               : (
                   <LoginLoading />
