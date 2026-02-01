@@ -52,6 +52,7 @@ const INITIAL_TEMPLATE_PRODUCT_DATA = {
     is_enabled: 0,
     imageUrl: '',
     imagesUrl: [],
+    rate: null,
   } }
 
 // Main Content
@@ -94,93 +95,6 @@ const ProjectFourthPage = function () {
     },
     [apiBaseUrl, apiPath],
   )
-
-  // // Create or update product info
-  // const updateProducts = async function (id, showLoading = true) {
-  //   if (showLoading) setIsProductsLoading(true)
-
-  //   const productData = {
-  //     data: {
-  //       ...templateProductData,
-  //       origin_price: Number(templateProductData.origin_price),
-  //       price: Number(templateProductData.price),
-  //       imagesUrl: [...templateProductData.imagesUrl.filter(url => url !== '')],
-  //     },
-  //   }
-
-  //   if (modalType === 'create') {
-  //     try {
-  //       // eslint-disable-next-line
-  //   const res = await axios.post(
-  //         `${apiBaseUrl}/api/${apiPath}/admin/product`, productData,
-  //       )
-  //       await getProducts(false)
-  //       Toast.fire({
-  //         icon: 'success',
-  //         title: 'Create a new product successfully',
-  //       })
-  //     }
-  //     catch {
-  //       Toast.fire({
-  //         icon: 'error',
-  //         title: 'Fail to create a new product',
-  //       })
-  //     }
-  //     finally {
-  //       setIsProductsLoading(false)
-  //       closeProductModal()
-  //     }
-  //   }
-  //   else {
-  //     try {
-  //       // eslint-disable-next-line
-  //   const res = await axios.put(
-  //         `${apiBaseUrl}/api/${apiPath}/admin/product/${id}`, productData,
-  //       )
-  //       await getProducts(false)
-  //       Toast.fire({
-  //         icon: 'success',
-  //         title: 'Update product successfully',
-  //       })
-  //     }
-  //     catch {
-  //       Toast.fire({
-  //         icon: 'error',
-  //         title: 'Fail to update product',
-  //       })
-  //     }
-  //     finally {
-  //       setIsProductsLoading(false)
-  //       closeProductModal()
-  //     }
-  //   }
-  // }
-
-  // // Delete product
-  // const deleteProductData = async function (id, showLoading = true) {
-  //   if (showLoading) setIsProductsLoading(true)
-  //   try {
-  //     // eslint-disable-next-line
-  // const res = await axios.delete(
-  //       `${apiBaseUrl}/api/${apiPath}/admin/product/${id}`,
-  //     )
-  //     Toast.fire({
-  //       icon: 'success',
-  //       title: 'Delete product successfully',
-  //     })
-  //   }
-  //   catch {
-  //     Toast.fire({
-  //       icon: 'error',
-  //       title: 'Fail to delete product',
-  //     })
-  //   }
-  //   finally {
-  //     closeProductModal()
-  //     getProducts(true)
-  //     setIsProductsLoading(false)
-  //   }
-  // }
 
   // Check token is valid or not
   const checkLogin = useCallback(
@@ -266,9 +180,9 @@ const ProjectFourthPage = function () {
   // Open specific type of Modal
   const openProductModal = function (type, product) {
     setModalType(type)
-    setTemplateProductData(function (preProductData) {
+    setTemplateProductData(function () {
       return {
-        ...preProductData,
+        ...INITIAL_TEMPLATE_PRODUCT_DATA.data,
         ...product,
       }
     })
