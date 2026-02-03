@@ -109,6 +109,11 @@ h2 {
     background-color: #263238;
 }
 
+.nav-link.active {
+    color: white !important;
+    font-weight: bold;
+}
+
 // Footer
 .footer {
     background-color: #242424;

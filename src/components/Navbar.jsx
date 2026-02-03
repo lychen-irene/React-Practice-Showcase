@@ -9,6 +9,12 @@ export const titles = [
 ]
 
 const Navbar = () => {
+  const handleActive = function (item) {
+    return (
+      `${window.location.pathname === item.url ? 'nav-link active' : 'nav-link'}`
+    )
+  }
+
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-sm navbar-dark">
@@ -27,12 +33,12 @@ const Navbar = () => {
                     {
                       item.title === 'About'
                         ? (
-                            <a className="nav-link" aria-current="page" href={item.url}>
+                            <a className={handleActive(item)} aria-current="page" href={item.url}>
                               {item.title}
                             </a>
                           )
                         : (
-                            <a className="nav-link" href={item.url}>
+                            <a className={handleActive(item)} href={item.url}>
                               {item.title}
                             </a>
                           )
