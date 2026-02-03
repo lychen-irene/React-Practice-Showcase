@@ -44,15 +44,15 @@ const INITIAL_TEMPLATE_PRODUCT_DATA = {
   { id: '',
     title: '',
     category: '',
-    origin_price: null,
-    price: null,
+    origin_price: '',
+    price: '',
     unit: '',
     description: '',
     content: '',
     is_enabled: 0,
     imageUrl: '',
     imagesUrl: [],
-    rate: null,
+    rate: '',
   } }
 
 // Main Content
