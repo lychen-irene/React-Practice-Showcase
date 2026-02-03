@@ -23,9 +23,9 @@ npm install gh-pages
 npm install react-hook-form
 ```
 
-- [React-Router](https://www.npmjs.com/package/react-router-dom)
+- [React-Router](https://reactrouter.com/upgrading/v6#upgrade-to-v7)
 ```
-npm install react-router-dom
+npm install react-router@latest
 ```
 
 - [Axios](https://axios-http.com/docs/intro)
@@ -41,4 +41,9 @@ npm install bootstrap
 - [SweetAlert2](https://sweetalert2.github.io/#download)
 ```
 npm install sweetalert2
+```
+
+- [React Hook Form Resolvers: Zod validation library](https://www.npmjs.com/package/@hookform/resolvers#zod)
+```
+npm install zod @hookform/resolvers
 ```
