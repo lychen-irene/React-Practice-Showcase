@@ -66,7 +66,6 @@ const LoginForm = function ({
               value={formData.username}
               onChange={handleLoginInputChange}
               required
-              autoFocus
             />
             <label htmlFor="username">Email address</label>
           </div>
