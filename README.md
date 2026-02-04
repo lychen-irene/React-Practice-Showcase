@@ -47,3 +47,8 @@ npm install sweetalert2
 ```
 npm install zod @hookform/resolvers
 ```
+
+- [Rollup Plugin Visualizer](https://www.npmjs.com/package/rollup-plugin-visualizer)
+```
+npm install --save-dev rollup-plugin-visualizer
+```
