@@ -3,14 +3,14 @@ import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../Navbar'
-import LoginForm from '../../view/LoginForm'
-import LoginLoading from '../LoginLoading'
-import Declaration from '../Declaration'
-import ProductHeader from '../ProductHeader'
-import ProductDetail from '../ProductDetail'
-import ProductsLoading from '../ProductsLoading'
-import Footer from '../Footer'
+import Navbar, { titles } from '../../components/Navbar'
+import LoginForm from '../../view/back/LoginForm'
+import LoginLoading from '../../components/LoginLoading'
+import Declaration from '../../components/Declaration'
+import ProductHeader from '../../components/ProductHeader'
+import ProductDetail from '../../components/ProductDetail'
+import ProductsLoading from '../../components/ProductsLoading'
+import Footer from '../../components/Footer'
 
 // Get login token from cookie
 const getToken = function () {

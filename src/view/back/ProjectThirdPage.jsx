@@ -3,16 +3,16 @@ import axios from 'axios'
 import * as bootstrap from 'bootstrap'
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../Navbar'
-import LoginForm from '../../view/LoginForm'
-import LoginLoading from '../LoginLoading'
-import AddNewProductBtn from '../AddNewProductBtn'
-import Declaration from '../Declaration'
-import ProductEditHeader from '../ProductEditHeader'
-import ProductModal, { ProductModelContent } from '../ProductModal'
-import Pagination from '../Pagination'
-import ProductsLoading from '../ProductsLoading'
-import Footer from '../Footer'
+import Navbar, { titles } from '../../components/Navbar'
+import LoginForm from './LoginForm'
+import LoginLoading from '../../components/LoginLoading'
+import AddNewProductBtn from '../../components/AddNewProductBtn'
+import Declaration from '../../components/Declaration'
+import ProductEditHeader from '../../components/ProductEditHeader'
+import ProductModal, { ProductModelContent } from '../../components/ProductModal'
+import Pagination from '../../components/Pagination'
+import ProductsLoading from '../../components/ProductsLoading'
+import Footer from '../../components/Footer'
 
 // Get login token from cookie
 const getToken = function () {
@@ -56,7 +56,7 @@ const INITIAL_TEMPLATE_PRODUCT_DATA = {
   } }
 
 // Main Content
-const ProjectThreePage = function () {
+const ProjectThirdPage = function () {
   // API path
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
@@ -269,4 +269,4 @@ const ProjectThreePage = function () {
   )
 }
 
-export default ProjectThreePage
+export default ProjectThirdPage

@@ -1,27 +1,31 @@
-const basePath = import.meta.env.VITE_PROJECT_PATH || ''
+import { NavLink } from 'react-router'
+
+// const basePath = import.meta.env.VITE_PROJECT_PATH || ''
+
+// export const titles = [
+//   { id: 1, title: 'About', url: `${basePath}/about` },
+//   { id: 2, title: 'Project-1', url: `${basePath}/projectOne` },
+//   { id: 3, title: 'Project-2', url: `${basePath}/projectTwo` },
+//   { id: 4, title: 'Project-3', url: `${basePath}/projectThird` },
+//   { id: 5, title: 'Project-4', url: `${basePath}/projectFourth` },
+// ]
 // eslint-disable-next-line
 export const titles = [
-  { id: 1, title: 'About', url: `${basePath}/about.html` },
-  { id: 2, title: 'Project-1', url: `${basePath}/projectOne.html` },
-  { id: 3, title: 'Project-2', url: `${basePath}/projectTwo.html` },
-  { id: 4, title: 'Project-3', url: `${basePath}/projectThree.html` },
-  { id: 5, title: 'Project-4', url: `${basePath}/projectFourth.html` },
+  { id: 1, title: 'About', url: '/about' },
+  { id: 2, title: 'Project-1', url: '/projectOne' },
+  { id: 3, title: 'Project-2', url: '/projectTwo' },
+  { id: 4, title: 'Project-3', url: '/projectThird' },
+  { id: 5, title: 'Project-4', url: '/projectFourth' },
 ]
 
 const Navbar = () => {
-  const handleActive = function (item) {
-    return (
-      `${window.location.pathname === item.url ? 'nav-link active' : 'nav-link'}`
-    )
-  }
-
   return (
     <>
       <nav className="navbar fixed-top navbar-expand-sm navbar-dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href={`${basePath}/`}>
+          <NavLink className="navbar-brand" to="/">
             Liang's React Project Showcase
-          </a>
+          </NavLink>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -30,20 +34,12 @@ const Navbar = () => {
               {titles.map((item) => {
                 return (
                   <li className="nav-item" key={item.id}>
-                    {
-                      item.title === 'About'
-                        ? (
-                            <a className={handleActive(item)} aria-current="page" href={item.url}>
-                              {item.title}
-                            </a>
-                          )
-                        : (
-                            <a className={handleActive(item)} href={item.url}>
-                              {item.title}
-                            </a>
-                          )
-                    }
-
+                    <NavLink
+                      className="nav-link"
+                      to={item.url}
+                    >
+                      {item.title}
+                    </NavLink>
                   </li>
                 )
               })}

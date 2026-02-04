@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Navbar, { titles } from '../Navbar'
-import ProductHeader from '../ProductHeader'
-import ProductDetail from '../ProductDetail'
-import Footer from '../Footer'
+import Navbar, { titles } from '../../components/Navbar'
+import ProductHeader from '../../components/ProductHeader'
+import ProductDetail from '../../components/ProductDetail'
+import Footer from '../../components/Footer'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 
 const ProjectOnePage = () => {
