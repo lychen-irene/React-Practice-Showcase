@@ -67,8 +67,7 @@ function Product() {
     try {
       navigate(`/product/${id}`)
     }
-    catch (error) {
-      console.error('取得產品資料失敗', error)
+    catch {
       Toast.fire({
         icon: 'error',
         title: 'Fail to load single product',
