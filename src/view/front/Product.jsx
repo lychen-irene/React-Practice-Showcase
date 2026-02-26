@@ -6,6 +6,7 @@ import 'bootstrap'
 import Swal from 'sweetalert2'
 
 import Navbar, { titles } from '../../components/Navbar'
+import Declaration from '../../components/Declaration'
 import Footer from '../../components/Navbar'
 
 // SweetAlert popup type
@@ -78,7 +79,7 @@ function Product() {
     <>
       <Navbar title={{ titles }} />
       <div>
-        <h2>Product Page</h2>
+        <Declaration />
         <div className="container">
           <div className="row">
             {
