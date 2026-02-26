@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { useLocation } from 'react-router'
 
 import 'bootstrap'
 import Navbar, { titles } from '../../components/Navbar'
-import DefaultPage from '../../components/DefaultPage'
 import Footer from '../../components/Navbar'
 
 function Home() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
+  const location = useLocation()
+  console.log(location.state)
+
   return (
     <>
       <Navbar title={{ titles }} />
-      <DefaultPage count={count} setCount={setCount} />
+      <div>
+        <h2>Home Page</h2>
+        <p>{location.state?.message}</p>
+      </div>
       <Footer />
     </>
   )
