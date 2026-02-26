@@ -2,26 +2,21 @@ import { NavLink } from 'react-router'
 
 // const basePath = import.meta.env.VITE_PROJECT_PATH || ''
 
-// export const titles = [
-//   { id: 1, title: 'About', url: `${basePath}/about` },
-//   { id: 2, title: 'Project-1', url: `${basePath}/projectOne` },
-//   { id: 3, title: 'Project-2', url: `${basePath}/projectTwo` },
-//   { id: 4, title: 'Project-3', url: `${basePath}/projectThird` },
-//   { id: 5, title: 'Project-4', url: `${basePath}/projectFourth` },
-// ]
 // eslint-disable-next-line
 export const titles = [
   { id: 1, title: 'About', url: '/about' },
-  { id: 2, title: 'Project-1', url: '/projectOne' },
-  { id: 3, title: 'Project-2', url: '/projectTwo' },
-  { id: 4, title: 'Project-3', url: '/projectThird' },
-  { id: 5, title: 'Project-4', url: '/projectFourth' },
+  { id: 2, title: 'Product', url: '/product' },
+  { id: 3, title: 'Cart', url: '/cart' },
+  { id: 11, title: 'Project-1', url: '/projectOne' },
+  { id: 12, title: 'Project-2', url: '/admin/projectTwo' },
+  { id: 13, title: 'Project-3', url: '/admin/projectThird' },
+  { id: 14, title: 'Project-4', url: '/admin/projectFourth' },
 ]
 
 const Navbar = () => {
   return (
     <>
-      <nav className="navbar fixed-top navbar-expand-sm navbar-dark">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-dark">
         <div className="container-fluid">
           <NavLink className="navbar-brand" to="/">
             Liang's React Project Showcase
