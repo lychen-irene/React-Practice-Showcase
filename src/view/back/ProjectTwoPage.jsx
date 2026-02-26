@@ -37,8 +37,20 @@ const Toast = Swal.mixin({
 // Check login status button
 const CheckLoginButton = function ({ onClick, isChecking }) {
   return (
-    <button className="btn btn-secondary mb-5" type="button" onClick={onClick} disabled={isChecking}>
-      {isChecking && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>}
+    <button
+      className="btn btn-secondary mb-5"
+      type="button"
+      onClick={onClick}
+      disabled={isChecking}
+    >
+      {isChecking && (
+        <span
+          className="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        >
+        </span>
+      )}
       確認登入狀態
     </button>
   )
@@ -48,7 +60,9 @@ const CheckLoginButton = function ({ onClick, isChecking }) {
 const ProjectTwoPage = function () {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
-  const [authStatus, setAuthStatus] = useState(() => getToken() ? 'loading' : 'unauth')
+  const [authStatus, setAuthStatus] = useState(() =>
+    getToken() ? 'loading' : 'unauth',
+  )
   const [products, setProducts] = useState([])
   const [tempProduct, setTempProduct] = useState(null)
   const [isLoginLoading, setIsLoginLoading] = useState(false)
@@ -56,81 +70,92 @@ const ProjectTwoPage = function () {
   const [isChecking, setIsChecking] = useState(false)
 
   // Get all products info from API
-  const getProducts = useCallback(async function (showLoading = true) {
-    if (showLoading) setIsProductsLoading(true)
-    try {
-      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/admin/products`)
-      setProducts(res.data.products)
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Failed to load product list',
-      })
-    }
-    finally {
-      setIsProductsLoading(false)
-    }
-  }, [apiBaseUrl, apiPath])
+  const getProducts = useCallback(
+    async function (showLoading = true) {
+      if (showLoading) setIsProductsLoading(true)
+      try {
+        const res = await axios.get(
+          `${apiBaseUrl}/api/${apiPath}/admin/products`,
+        )
+        setProducts(res.data.products)
+      }
+      catch {
+        Toast.fire({
+          icon: 'error',
+          title: 'Failed to load product list',
+        })
+      }
+      finally {
+        setIsProductsLoading(false)
+      }
+    },
+    [apiBaseUrl, apiPath],
+  )
 
   // Check token is valid or not by checkLogin buttun
-  const checkLogin = useCallback(async function (showMsg = true) {
-    if (showMsg) setIsChecking(true)
-    try {
-      // 從 Cookie 取得 Token
-      const token = getToken()
+  const checkLogin = useCallback(
+    async function (showMsg = true) {
+      if (showMsg) setIsChecking(true)
+      try {
+        // 從 Cookie 取得 Token
+        const token = getToken()
 
-      if (token) {
-        axios.defaults.headers.common['Authorization'] = token
-        // 驗證 Token 是否有效
-        // eslint-disable-next-line
-        const res = await axios.post(`${apiBaseUrl}/api/user/check`)
-        await getProducts(false) // 靜默更新，不觸發產品 loading
-        setAuthStatus('auth')
-        if (showMsg) {
-          Toast.fire({
-            icon: 'success',
-            title: 'Check success: token is valid',
-          })
+        if (token) {
+          axios.defaults.headers.common['Authorization'] = token
+          // 驗證 Token 是否有效
+          // eslint-disable-next-line
+          const res = await axios.post(`${apiBaseUrl}/api/user/check`);
+          await getProducts(false) // 靜默更新，不觸發產品 loading
+          setAuthStatus('auth')
+          if (showMsg) {
+            Toast.fire({
+              icon: 'success',
+              title: 'Check success: token is valid',
+            })
+          }
+        }
+        else {
+          setAuthStatus('unauth')
+          if (showMsg) {
+            Toast.fire({
+              icon: 'error',
+              title: 'Check failed: token not found, please sign in again',
+            })
+          }
         }
       }
-      else {
-        setAuthStatus('unauth')
+      catch {
+        setTimeout(function () {
+          setAuthStatus('unauth')
+        }, 0)
         if (showMsg) {
           Toast.fire({
             icon: 'error',
-            title: 'Check failed: token not found, please sign in again',
+            title: 'Check failed: token is invalid',
           })
         }
       }
-    }
-    catch {
-      setTimeout(function () {
-        setAuthStatus('unauth')
-      }, 0)
-      if (showMsg) {
-        Toast.fire({
-          icon: 'error',
-          title: 'Check failed: token is invalid',
-        })
+      finally {
+        if (showMsg) setIsChecking(false)
       }
-    }
-    finally {
-      if (showMsg) setIsChecking(false)
-    }
-  }, [apiBaseUrl, getProducts])
+    },
+    [apiBaseUrl, getProducts],
+  )
 
   // Prevent checkLogin and SweetAlert popup run twice
   const hasChecked = useRef(false)
-  useEffect(function () {
-    if (!hasChecked.current) {
-      hasChecked.current = true // prevent checkLogin run twice on strict mode
-      setTimeout(() => {
-        checkLogin(false) // SweetAlert will not be triggered because shwMsg = false
-        // checkLogin() // SweetAlert always shows when pages is refreshed
-      }, 0)
-    }
-  }, [checkLogin])
+  useEffect(
+    function () {
+      if (!hasChecked.current) {
+        hasChecked.current = true // prevent checkLogin run twice on strict mode
+        setTimeout(() => {
+          checkLogin(false) // SweetAlert will not be triggered because shwMsg = false
+          // checkLogin() // SweetAlert always shows when pages is refreshed
+        }, 0)
+      }
+    },
+    [checkLogin],
+  )
 
   // Auto logout when other 401 error comes out
   useEffect(() => {
@@ -170,14 +195,20 @@ const ProjectTwoPage = function () {
           <div className="container-fluid">
             <div className="row mt-5 row-col-2">
               <div className="col">
-                <CheckLoginButton onClick={checkLogin} isChecking={isChecking} />
+                <CheckLoginButton
+                  onClick={checkLogin}
+                  isChecking={isChecking}
+                />
 
                 <Declaration />
                 <table className="table table-dark table-striped table-bordered border-secondary">
                   {!isProductsLoading
                     ? (
                         <>
-                          <ProductHeader products={products} setTempProduct={setTempProduct} />
+                          <ProductHeader
+                            products={products}
+                            setTempProduct={setTempProduct}
+                          />
                         </>
                       )
                     : (
@@ -203,6 +234,7 @@ const ProjectTwoPage = function () {
             {!isLoginLoading
               ? (
                   <LoginForm
+                    Toast={Toast}
                     getProducts={getProducts}
                     setAuthStatus={setAuthStatus}
                     setIsLoginLoading={setIsLoginLoading}
