@@ -13,6 +13,8 @@ const Cart = lazy(() => import('./view/front/Cart'))
 const Checkout = lazy(() => import('./view/front/Checkout'))
 const LoginPage = lazy(() => import('./view/front/LoginPage'))
 
+const AdminProducts = lazy(() => import('./view/back/AdminProducts'))
+
 const ProjectOnePage = lazy(() => import('./view/front/ProjectOnePage'))
 const ProjectTwoPage = lazy(() => import('./view/back/ProjectTwoPage'))
 const ProjectThirdPage = lazy(() => import('./view/back/ProjectThirdPage'))
@@ -61,6 +63,10 @@ export const router = createHashRouter([
     path: '/admin',
     element: <BackendLayout />,
     children: [
+      {
+        path: 'products',
+        element: <AdminProducts />,
+      },
       {
         path: 'projectTwo',
         element: <ProjectTwoPage />,

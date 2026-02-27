@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -21,7 +22,7 @@ const LoginPage = function () {
       toast.onmouseleave = Swal.resumeTimer
     },
   })
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -42,6 +43,7 @@ const LoginPage = function () {
       const { token, expired } = res.data
       setAuthToken(token, expired)
       reset()
+      navigate('/admin/products', { replace: true })
       Toast.fire({
         icon: 'success',
         title: 'Sign in successfully',
