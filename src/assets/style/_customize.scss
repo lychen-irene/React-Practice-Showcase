@@ -7,4 +7,16 @@ $input-color: #ffffff;
 
 $input-group-addon-color: #ffffff;;
 $input-group-addon-bg:rgba(255, 255, 255, 0);;
-$input-group-addon-border-color:rgba(255, 255, 255, 0);;
+$input-group-addon-border-color:rgba(255, 255, 255, 0);
+
+.login .form-control {
+    background-color: #fff;
+    color: #212529;
+    border-color: #dee2e6;
+  }
+
+.checkout .form-control {
+    background-color: #fff;
+    color: #212529;
+    border-color: #dee2e6;
+  }
