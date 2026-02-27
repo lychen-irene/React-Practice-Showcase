@@ -1,5 +1,6 @@
 import { Outlet, Link } from 'react-router'
-import Navbar, { titles } from '../components/Navbar'
+import Navbar from '../components/Navbar'
+import { titles } from '../components/navTitles'
 import Footer from '../components/Footer'
 
 const FrontendLayout = function () {

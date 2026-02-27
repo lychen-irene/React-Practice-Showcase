@@ -142,8 +142,7 @@ const ProductModelContent = function ({
     const { method, apiUrl, successMsg, errorMsg } = modalConfig[modalType]
 
     try {
-      // eslint-disable-next-line
-      const res = await axios[method](
+      await axios[method](
         apiUrl, productData,
       )
       await getProducts(false)
@@ -167,8 +166,7 @@ const ProductModelContent = function ({
   const deleteProductData = async function (id, showLoading = true) {
     if (showLoading) setIsProductsLoading(true)
     try {
-    // eslint-disable-next-line
-      const res = await axios.delete(
+      await axios.delete(
         `${apiBaseUrl}/api/${apiPath}/admin/product/${id}`,
       )
       await getProducts(false)
@@ -202,8 +200,7 @@ const ProductModelContent = function ({
     try {
       const formData = new FormData()
       formData.append('file-to-upload', file)
-      // eslint-disable-next-line
-      const res = await axios.post(`${apiBaseUrl}/api/${apiPath}/admin/upload`, 
+      const res = await axios.post(`${apiBaseUrl}/api/${apiPath}/admin/upload`,
         formData)
       setValue('imageUrl', res.data.imageUrl)
     }
