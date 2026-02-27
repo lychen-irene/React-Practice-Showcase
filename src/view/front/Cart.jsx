@@ -3,9 +3,6 @@ import axios from 'axios'
 import 'bootstrap'
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../../components/Navbar'
-import Footer from '../../components/Navbar'
-
 // SweetAlert popup type
 const Toast = Swal.mixin({
   toast: true,
@@ -45,6 +42,10 @@ function Cart() {
       const url = `${apiBaseUrl}/api/${apiPath}/carts`
       await axios.delete(url)
       getCart()
+      Toast.fire({
+        icon: 'success',
+        title: 'Clear the whole cart successfully',
+      })
     }
     catch {
       Toast.fire({
@@ -61,6 +62,10 @@ function Cart() {
       // eslint-disable-next-line
       const res = await axios.delete(url)
       getCart()
+      Toast.fire({
+        icon: 'success',
+        title: 'Delete the product from cart list successfully',
+      })
     }
     catch {
       Toast.fire({
@@ -81,6 +86,10 @@ function Cart() {
       // eslint-disable-next-line
       const res = await axios.put(url, { data })
       getCart()
+      Toast.fire({
+        icon: 'success',
+        title: 'Update the product quantity in cart list successfully',
+      })
     }
     catch {
       Toast.fire({
@@ -98,7 +107,6 @@ function Cart() {
 
   return (
     <>
-      <Navbar title={{ titles }} />
       <div className="container">
         <h2>Cart Page</h2>
         <div className="text-end mt-4">
@@ -173,8 +181,6 @@ function Cart() {
           </tfoot>
         </table>
       </div>
-
-      <Footer />
     </>
   )
 }

@@ -5,9 +5,7 @@ import axios from 'axios'
 import 'bootstrap'
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../../components/Navbar'
 import Declaration from '../../components/Declaration'
-import Footer from '../../components/Navbar'
 
 // SweetAlert popup type
 const Toast = Swal.mixin({
@@ -38,6 +36,10 @@ function Product() {
       const url = `${apiBaseUrl}/api/${apiPath}/cart`
       // eslint-disable-next-line
       const res = await axios.post(url, { data })
+      Toast.fire({
+        icon: 'success',
+        title: 'Add to cart successfully',
+      })
     }
     catch {
       Toast.fire({
@@ -76,7 +78,6 @@ function Product() {
   }
   return (
     <>
-      <Navbar title={{ titles }} />
       <div>
         <Declaration />
         <div className="container">
@@ -126,7 +127,6 @@ function Product() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

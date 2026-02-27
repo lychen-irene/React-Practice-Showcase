@@ -3,14 +3,12 @@ import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../../components/Navbar'
 import LoginForm from '../../view/back/LoginForm'
 import LoginLoading from '../../components/LoginLoading'
 import Declaration from '../../components/Declaration'
 import ProductHeader from '../../components/ProductHeader'
 import ProductDetail from '../../components/ProductDetail'
 import ProductsLoading from '../../components/ProductsLoading'
-import Footer from '../../components/Footer'
 
 // Get login token from cookie
 const getToken = function () {
@@ -185,7 +183,6 @@ const ProjectTwoPage = function () {
   return (
     <>
       <div>
-        <Navbar title={{ titles }} />
         {authStatus === 'loading' && (
           <div className="d-flex justify-content-center">
             <LoginLoading />
@@ -245,7 +242,6 @@ const ProjectTwoPage = function () {
                 )}
           </div>
         )}
-        <Footer />
       </div>
     </>
   )

@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import Navbar, { titles } from '../../components/Navbar'
 import ProductHeader from '../../components/ProductHeader'
 import ProductDetail from '../../components/ProductDetail'
-import Footer from '../../components/Footer'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 
 const ProjectOnePage = () => {
@@ -63,7 +61,7 @@ const ProjectOnePage = () => {
 
   return (
     <>
-      <Navbar title={{ titles }} />
+      {/* <Navbar title={{ titles }} /> */}
 
       <div className="container-fluid">
         <div className="row mt-5 row-col-2">
@@ -85,7 +83,7 @@ const ProjectOnePage = () => {
           </div>
         </div>
       </div>
-      <Footer />
+
     </>
   )
 }

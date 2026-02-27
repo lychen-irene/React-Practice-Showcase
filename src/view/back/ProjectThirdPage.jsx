@@ -3,7 +3,6 @@ import axios from 'axios'
 import * as bootstrap from 'bootstrap'
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from '../../components/Navbar'
 import LoginForm from './LoginForm'
 import LoginLoading from '../../components/LoginLoading'
 import AddNewProductBtn from '../../components/AddNewProductBtn'
@@ -12,7 +11,6 @@ import ProductEditHeader from '../../components/ProductEditHeader'
 import ProductModal, { ProductModelContent } from '../../components/ProductModal'
 import Pagination from '../../components/Pagination'
 import ProductsLoading from '../../components/ProductsLoading'
-import Footer from '../../components/Footer'
 
 // Get login token from cookie
 const getToken = function () {
@@ -197,7 +195,6 @@ const ProjectThirdPage = function () {
   return (
     <>
       <div>
-        <Navbar title={{ titles }} />
         {authStatus === 'loading' && (
           <div className="d-flex justify-content-center">
             <LoginLoading />
@@ -263,7 +260,6 @@ const ProjectThirdPage = function () {
           getProducts={getProducts}
           Toast={Toast}
         />
-        <Footer />
       </div>
     </>
   )
