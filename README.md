@@ -6,7 +6,7 @@ My React Practice Showcase based on homework given by hexschool React lessons.
 
 - Showcase current structure:
 ## Directory Structure
-
+```
 src/
 ├── components/       # Reusable UI components
 │   ├── AddNewProductBtn.jsx
@@ -54,11 +54,11 @@ src/
 ├── router.jsx    # Route definitions (createHashRouter)
 ├── main.jsx      # Entry point
 └── index.css     # Global CSS reset/base
-
+```
     - latest modification date: 2026/2/27
 
 ## Tech Stack
-
+```
 | Layer         | Technology                          |
 | ------------- | ----------------------------------- |
 | Framework     | React 19.2 + React Router 7.13      |
@@ -70,7 +70,7 @@ src/
 | Loading UI    | react-loader-spinner 8.0 (ColorRing)|
 | Linting       | ESLint 9.39 (flat config)           |
 | Deployment    | GitHub Pages via `gh-pages`         |
-
+```
 
 ## Installation Guide
 
