@@ -64,6 +64,10 @@ export const router = createHashRouter([
     element: <BackendLayout />,
     children: [
       {
+        index: true, // 預設首頁
+        element: <LoginPage />,
+      },
+      {
         path: 'products',
         element: <AdminProducts />,
       },

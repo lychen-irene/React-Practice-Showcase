@@ -233,19 +233,9 @@ const AdminProducts = function () {
           </>
         )}
         {authStatus === 'unauth' && (
-          <div className="d-flex justify-content-center">
-            {/* {!isLoginLoading
-              ? (
-                  <LoginForm
-                    Toast={Toast}
-                    getProducts={getProducts}
-                    setAuthStatus={setAuthStatus}
-                    setIsLoginLoading={setIsLoginLoading}
-                  />
-                )
-              : (
-                  <Loading />
-                )} */}
+          <div className="container justify-content-center">
+            <h2>You do not have the access,</h2>
+            <h2>Please login or contact the administrator of this website.</h2>
           </div>
         )}
         <ProductModal
