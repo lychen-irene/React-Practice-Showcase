@@ -139,7 +139,7 @@ function Cart() {
                       </button>
                     </td>
                     <td className="align-middle">{cartItem.product.title}</td>
-                    <td>
+                    <td className="cart">
                       <div className="d-flex">
                         <input
                           type="number"
