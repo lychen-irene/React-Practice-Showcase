@@ -5,7 +5,7 @@ import 'bootstrap' // loads Bootstrap's JavaScript plugins
 
 const ProjectOnePage = () => {
   const [tempProduct, setTempProduct] = useState(null)
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-unused-vars
   const [products, setProducts] = useState([
     {
       category: '甜甜圈',
