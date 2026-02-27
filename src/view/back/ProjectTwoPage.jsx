@@ -3,8 +3,8 @@ import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
 import Swal from 'sweetalert2'
 
-import LoginForm from '../../view/back/LoginForm'
-import LoginLoading from '../../components/LoginLoading'
+import LoginForm from '../front/LoginForm'
+import Loading from '../../components/Loading'
 import Declaration from '../../components/Declaration'
 import ProductHeader from '../../components/ProductHeader'
 import ProductDetail from '../../components/ProductDetail'
@@ -101,8 +101,7 @@ const ProjectTwoPage = function () {
         if (token) {
           axios.defaults.headers.common['Authorization'] = token
           // 驗證 Token 是否有效
-          // eslint-disable-next-line
-          const res = await axios.post(`${apiBaseUrl}/api/user/check`);
+          await axios.post(`${apiBaseUrl}/api/user/check`)
           await getProducts(false) // 靜默更新，不觸發產品 loading
           setAuthStatus('auth')
           if (showMsg) {
@@ -185,7 +184,7 @@ const ProjectTwoPage = function () {
       <div>
         {authStatus === 'loading' && (
           <div className="d-flex justify-content-center">
-            <LoginLoading />
+            <Loading />
           </div>
         )}
         {authStatus === 'auth' && (
@@ -238,7 +237,7 @@ const ProjectTwoPage = function () {
                   />
                 )
               : (
-                  <LoginLoading />
+                  <Loading />
                 )}
           </div>
         )}

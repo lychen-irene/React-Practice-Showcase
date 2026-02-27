@@ -3,8 +3,8 @@ import axios from 'axios'
 import * as bootstrap from 'bootstrap'
 import Swal from 'sweetalert2'
 
-import LoginForm from './LoginForm'
-import LoginLoading from '../../components/LoginLoading'
+import LoginForm from '../front/LoginForm'
+import Loading from '../../components/Loading'
 import AddNewProductBtn from '../../components/AddNewProductBtn'
 import Declaration from '../../components/Declaration'
 import ProductEditHeader from '../../components/ProductEditHeader'
@@ -103,8 +103,7 @@ const ProjectThirdPage = function () {
         if (token) {
           axios.defaults.headers.common['Authorization'] = token
           // check token is valid or not
-          // eslint-disable-next-line
-          const res = await axios.post(`${apiBaseUrl}/api/user/check`);
+          await axios.post(`${apiBaseUrl}/api/user/check`)
           await getProducts(false)
           setAuthStatus('auth')
         }
@@ -197,7 +196,7 @@ const ProjectThirdPage = function () {
       <div>
         {authStatus === 'loading' && (
           <div className="d-flex justify-content-center">
-            <LoginLoading />
+            <Loading />
           </div>
         )}
         {authStatus === 'auth' && (
@@ -245,7 +244,7 @@ const ProjectThirdPage = function () {
                   />
                 )
               : (
-                  <LoginLoading />
+                  <Loading />
                 )}
           </div>
         )}
