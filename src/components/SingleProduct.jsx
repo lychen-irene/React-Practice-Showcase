@@ -5,8 +5,6 @@ import axios from 'axios'
 import 'bootstrap'
 import Swal from 'sweetalert2'
 
-import Navbar, { titles } from './Navbar'
-import Footer from './Navbar'
 import ProductDetail from './ProductDetail'
 
 // SweetAlert popup type
@@ -54,14 +52,12 @@ function SingleProduct() {
 
   return (
     <>
-      <Navbar title={{ titles }} />
       <div>
         <h2>SingleProduct Page</h2>
       </div>
       <div className="container mt-3">
         <ProductDetail tempProduct={singleProduct} />
       </div>
-      <Footer />
     </>
   )
 }
