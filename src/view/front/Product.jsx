@@ -34,8 +34,7 @@ function Product() {
     }
     try {
       const url = `${apiBaseUrl}/api/${apiPath}/cart`
-      // eslint-disable-next-line
-      const res = await axios.post(url, { data })
+      await axios.post(url, { data })
       Toast.fire({
         icon: 'success',
         title: 'Add to cart successfully',
@@ -45,6 +44,18 @@ function Product() {
       Toast.fire({
         icon: 'error',
         title: 'Fail to add the product into cart',
+      })
+    }
+  }
+
+  const handleView = async function (id) {
+    try {
+      navigate(`/product/${id}`)
+    }
+    catch {
+      Toast.fire({
+        icon: 'error',
+        title: 'Fail to load single product',
       })
     }
   }
@@ -65,22 +76,13 @@ function Product() {
       }
       getProducts()
     }, [apiBaseUrl, apiPath])
-  const handleView = async function (id) {
-    try {
-      navigate(`/product/${id}`)
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to load single product',
-      })
-    }
-  }
+
   return (
     <>
-      <div>
+      <div className="my-5">
         <Declaration />
         <div className="container">
+
           <div className="row">
             {
               products.map(product => (
@@ -113,10 +115,22 @@ function Product() {
                       </div>
                       <div className="d-flex gap-4">
                         <div>
-                          <button type="button" className="btn btn-secondary" onClick={() => { handleView(product.id) }}>查看更多</button>
+                          <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => { handleView(product.id) }}
+                          >
+                            查看更多
+                          </button>
                         </div>
                         <div>
-                          <button type="button" className="btn btn-primary" onClick={() => { addCart(product.id) }}>加入購物車</button>
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => { addCart(product.id) }}
+                          >
+                            加入購物車
+                          </button>
                         </div>
                       </div>
                     </div>

@@ -59,8 +59,7 @@ function Cart() {
   const deleteCart = async (cartId) => {
     try {
       const url = `${apiBaseUrl}/api/${apiPath}/cart/${cartId}`
-      // eslint-disable-next-line
-      const res = await axios.delete(url)
+      await axios.delete(url)
       getCart()
       Toast.fire({
         icon: 'success',
@@ -83,8 +82,7 @@ function Cart() {
         product_id: productId,
         qty,
       }
-      // eslint-disable-next-line
-      const res = await axios.put(url, { data })
+      await axios.put(url, { data })
       getCart()
       Toast.fire({
         icon: 'success',
@@ -101,8 +99,7 @@ function Cart() {
 
   useEffect(
     function () {
-      // eslint-disable-next-line
-      getCart()
+      getCart() // eslint-disable-line react-hooks/set-state-in-effect
     }, [getCart])
 
   return (
@@ -128,8 +125,9 @@ function Cart() {
             </tr>
           </thead>
           <tbody>
-            {cart?.carts?.length > 0
-              ? cart?.carts?.map(cartItem => (
+            {cart?.carts?.length === 0
+              ? <tr><td colSpan="4">購物車沒有商品</td></tr>
+              : cart?.carts?.map(cartItem => (
                   <tr key={cartItem.id}>
                     <td>
                       <button
@@ -166,10 +164,7 @@ function Cart() {
                     </td>
                     <td className="text-middle align-middle">{cartItem.final_total}</td>
                   </tr>
-                ))
-
-              : <tr><td colSpan="4">購物車沒有商品</td></tr>}
-
+                ))}
           </tbody>
           <tfoot>
             <tr>
