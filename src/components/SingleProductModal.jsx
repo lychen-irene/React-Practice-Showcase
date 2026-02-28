@@ -48,7 +48,7 @@ const SingleProductModal = function ({
                 ，特價：$
                 {product.price}
               </p>
-              <div className="d-flex align-items-center">
+              <div className="singleProduct d-flex align-items-center">
                 <label htmlFor="quantity" style={{ width: '250px' }}>購買數量：</label>
                 <button
                   className="btn btn-danger btn-sm d-block w-25 mt-2"
@@ -62,7 +62,7 @@ const SingleProductModal = function ({
                 <input
                   style={{ width: '100px' }}
                   id="quantity"
-                  className="form-control text-end"
+                  className="form-control text-end w-20 mt-2"
                   type="number"
                   min="1"
                   max="10"
