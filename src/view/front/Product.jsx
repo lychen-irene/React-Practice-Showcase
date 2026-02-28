@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-
 import axios from 'axios'
 import 'bootstrap'
-
 import { Toast } from '../../utils/toast'
 import Declaration from '../../components/Declaration'
+import useCart from '../../hooks/useCart'
 
 function Product() {
   // API path
@@ -15,26 +14,7 @@ function Product() {
   const [products, setProducts] = useState([])
   const navigate = useNavigate()
 
-  const addCart = async (id, num = 1) => {
-    const data = {
-      product_id: id,
-      qty: num,
-    }
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart`
-      await axios.post(url, { data })
-      Toast.fire({
-        icon: 'success',
-        title: 'Add to cart successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to add the product into cart',
-      })
-    }
-  }
+  const { addToCart } = useCart()
 
   const handleView = async function (id) {
     try {
@@ -116,7 +96,7 @@ function Product() {
                           <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={() => { addCart(product.id) }}
+                            onClick={() => { addToCart(product.id) }}
                           >
                             加入購物車
                           </button>

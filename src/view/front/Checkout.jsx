@@ -1,21 +1,21 @@
-import { useEffect, useCallback, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { ColorRing } from 'react-loader-spinner'
 
 import axios from 'axios'
 import * as bootstrap from 'bootstrap'
 import SingleProductModal from '../../components/SingleProductModal'
-
 import { Toast } from '../../utils/toast'
+import useCart from '../../hooks/useCart'
 
 function Checkout() {
-  // API path
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
   const apiPath = import.meta.env.VITE_API_PATH
 
+  const { cart, getCart, deleteItem, clearCart, updateItem, addToCart } = useCart()
+
   const [product, setProduct] = useState({})
   const [products, setProducts] = useState([])
-  const [cart, setCart] = useState([])
   const [modalQty, setModalQty] = useState(1)
   const [loadingCartId, setLoadingCartId] = useState(null)
   const [loadingProductId, setLoadingProductId] = useState(null)
@@ -24,85 +24,8 @@ function Checkout() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm(
-    { mode: 'onBlur' }, // 離開欄位才檢查
-  )
+  } = useForm({ mode: 'onBlur' })
   const productModalRef = useRef(null)
-
-  const getCart = useCallback(async function () {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/cart`)
-      setCart(res.data.data)
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to load cart list',
-      })
-    }
-  }, [apiBaseUrl, apiPath])
-
-  // Clear the whole cart list
-  const deleteCartAll = async () => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/carts`
-      await axios.delete(url)
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Clear the whole cart successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to clear the whole cart list',
-      })
-    }
-  }
-
-  // Delete specific product
-  const deleteCart = async (cartId) => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart/${cartId}`
-      // eslint-disable-next-line
-      const res = await axios.delete(url)
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Delete the product from cart list successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to delete the product from cart list',
-      })
-    }
-  }
-
-  // Update product quantity
-  const updateCart = async (cartId, productId, qty = 1) => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart/${cartId}`
-      const data = {
-        product_id: productId,
-        qty,
-      }
-      await axios.put(url, { data })
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Update the product quantity in cart list successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to update product quantity in cart list',
-      })
-    }
-  }
 
   const onSubmit = async (formData) => {
     try {
@@ -112,17 +35,11 @@ function Checkout() {
       })
       reset()
       getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Successfully submit checkout form',
-      })
+      Toast.fire({ icon: 'success', title: 'Successfully submit checkout form' })
     }
     catch (error) {
       console.error(error)
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to submit checkout form',
-      })
+      Toast.fire({ icon: 'error', title: 'Fail to submit checkout form' })
     }
   }
 
@@ -134,19 +51,13 @@ function Checkout() {
           setProducts(res.data.products)
         }
         catch {
-          Toast.fire({
-            icon: 'error',
-            title: 'Fail to load product list',
-          })
+          Toast.fire({ icon: 'error', title: 'Fail to load product list' })
         }
       }
       getProducts()
       getCart()
 
-      productModalRef.current = new bootstrap.Modal('#productModal', {
-        keyboard: false,
-      },
-      )
+      productModalRef.current = new bootstrap.Modal('#productModal', { keyboard: false })
       document
         .querySelector('#productModal')
         .addEventListener('hide.bs.modal', () => {
@@ -154,34 +65,19 @@ function Checkout() {
             document.activeElement.blur()
           }
         })
-    }, [apiBaseUrl, apiPath, getCart])
+    },
+    [apiBaseUrl, apiPath, getCart],
+  )
 
   const addCart = async (id, num = 1) => {
     const existingItem = cart?.carts?.find(item => item.product_id === id)
     if (existingItem) {
-      await updateCart(existingItem.id, id, existingItem.qty + num)
+      await updateItem(existingItem.id, id, existingItem.qty + num)
       return
     }
-
     setLoadingCartId(id)
-    const data = {
-      product_id: id,
-      qty: num,
-    }
     try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart`
-      await axios.post(url, { data })
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Add to cart successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to add the product into cart',
-      })
+      await addToCart(id, num)
     }
     finally {
       setLoadingCartId(null)
@@ -191,27 +87,20 @@ function Checkout() {
   const handleView = async function (id) {
     setLoadingProductId(id)
     try {
-      const res = await axios.get (
-        `${apiBaseUrl}/api/${apiPath}/product/${id}`,
-      )
+      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/product/${id}`)
       setProduct(res.data.product)
       const cartEntry = cart?.carts?.find(item => item.product_id === id)
       setModalQty(cartEntry?.qty ?? 1)
     }
     catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to load single product',
-      })
+      Toast.fire({ icon: 'error', title: 'Fail to load single product' })
     }
     finally {
       setLoadingProductId(null)
     }
-
     productModalRef.current.show()
   }
 
-  // Close Modal
   const closeProductModal = function () {
     productModalRef.current.hide()
   }
@@ -320,7 +209,7 @@ function Checkout() {
             <button
               type="button"
               className="btn btn-danger my-3"
-              onClick={() => deleteCartAll()}
+              onClick={() => clearCart()}
             >
               清空購物車
             </button>
@@ -342,7 +231,7 @@ function Checkout() {
                         <button
                           type="button"
                           className="btn btn-danger btn-sm"
-                          onClick={() => deleteCart(cartItem.id)}
+                          onClick={() => deleteItem(cartItem.id)}
                         >
                           刪除
                         </button>
@@ -358,7 +247,7 @@ function Checkout() {
                             aria-describedby="inputGroup-sizing-sm"
                             defaultValue={cartItem.qty}
                             onChange={e =>
-                              updateCart(
+                              updateItem(
                                 cartItem.id,
                                 cartItem.product_id,
                                 Number(e.target.value),
@@ -532,7 +421,7 @@ function Checkout() {
         cartQty={modalQty}
         setCartQty={setModalQty}
         addCart={addCart}
-        updateCart={updateCart}
+        updateCart={updateItem}
         closeProductModal={closeProductModal}
       />
     </>

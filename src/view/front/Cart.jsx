@@ -1,94 +1,13 @@
-import { useEffect, useCallback, useState } from 'react'
-import axios from 'axios'
+import { useEffect } from 'react'
 import 'bootstrap'
-
-import { Toast } from '../../utils/toast'
+import useCart from '../../hooks/useCart'
 
 function Cart() {
-  // API path
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
-  const apiPath = import.meta.env.VITE_API_PATH
+  const { cart, getCart, deleteItem, clearCart, updateItem } = useCart()
 
-  const [cart, setCart] = useState([])
-
-  const getCart = useCallback(async function () {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/api/${apiPath}/cart`)
-      setCart(res.data.data)
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to load cart list',
-      })
-    }
-  }, [apiBaseUrl, apiPath])
-
-  // Clear the whole cart list
-  const deleteCartAll = async () => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/carts`
-      await axios.delete(url)
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Clear the whole cart successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to clear the whole cart list',
-      })
-    }
-  }
-
-  // Delete specific product
-  const deleteCart = async (cartId) => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart/${cartId}`
-      await axios.delete(url)
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Delete the product from cart list successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to delete the product from cart list',
-      })
-    }
-  }
-
-  // Update product quantity
-  const updateCart = async (cartId, productId, qty = 1) => {
-    try {
-      const url = `${apiBaseUrl}/api/${apiPath}/cart/${cartId}`
-      const data = {
-        product_id: productId,
-        qty,
-      }
-      await axios.put(url, { data })
-      getCart()
-      Toast.fire({
-        icon: 'success',
-        title: 'Update the product quantity in cart list successfully',
-      })
-    }
-    catch {
-      Toast.fire({
-        icon: 'error',
-        title: 'Fail to update product quantity in cart list',
-      })
-    }
-  }
-
-  useEffect(
-    function () {
-      getCart() // eslint-disable-line react-hooks/set-state-in-effect
-    }, [getCart])
+  useEffect(function () {
+    getCart()
+  }, [getCart]) // 在 useCart.js 的 getCart 加上 useCallback 才可加入，避免無限次渲染
 
   return (
     <>
@@ -98,7 +17,7 @@ function Cart() {
           <button
             type="button"
             className="btn btn-danger my-3"
-            onClick={() => deleteCartAll()}
+            onClick={() => clearCart()}
           >
             清空購物車
           </button>
@@ -121,7 +40,7 @@ function Cart() {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm"
-                        onClick={() => deleteCart(cartItem.id)}
+                        onClick={() => deleteItem(cartItem.id)}
                       >
                         刪除
                       </button>
@@ -136,7 +55,7 @@ function Cart() {
                           aria-describedby="inputGroup-sizing-sm"
                           defaultValue={cartItem.qty}
                           onChange={e =>
-                            updateCart(
+                            updateItem(
                               cartItem.id,
                               cartItem.product_id,
                               Number(e.target.value),
@@ -156,9 +75,7 @@ function Cart() {
           </tbody>
           <tfoot>
             <tr>
-              <td className="text-end" colSpan="3">
-                總計
-              </td>
+              <td className="text-end" colSpan="3">總計</td>
               <td className="text-middel">{cart.final_total}</td>
             </tr>
           </tfoot>
