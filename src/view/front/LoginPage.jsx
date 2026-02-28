@@ -32,7 +32,7 @@ const LoginPage = function () {
       const { token, expired } = res.data
       setAuthToken(token, expired)
       reset()
-      navigate('/admin/products', { replace: true })
+      navigate('/admin', { replace: true })
       Toast.fire({
         icon: 'success',
         title: 'Sign in successfully',
