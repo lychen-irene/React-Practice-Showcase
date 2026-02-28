@@ -9,6 +9,7 @@ const Navbar = () => {
           <NavLink className="navbar-brand" to="/">
             Liang's React Project Showcase
           </NavLink>
+          {/* toggle for RWD */}
           <button
             className="navbar-toggler"
             type="button"
@@ -24,6 +25,7 @@ const Navbar = () => {
             className="collapse navbar-collapse"
             id="navbarSupportedContent"
           >
+            {/* navlink */}
             <ul className="navbar-nav me-auto">
               {titles.filter(item => item.id <= 4).map((item) => {
                 return (
@@ -37,10 +39,10 @@ const Navbar = () => {
                   </li>
                 )
               })}
-
             </ul>
-            <ul className="navbar-nav ms-auto">
 
+            {/* Project dropdown */}
+            <ul className="navbar-nav ms-auto">
               {titles.filter(item => item.title === 'Login').map((item) => {
                 return (
                   <li className="nav-item" key={item.id}>
@@ -63,22 +65,19 @@ const Navbar = () => {
                   Project
                 </NavLink>
                 <ul className="dropdown-menu dropdown-menu-end">
-                  {titles.filter(item => item.id >= 11 && item.id <= 90).map((item) => {
+                  {titles.filter(item => item.id >= 11 && item.id <= 20).map((item) => {
                     return (
                       <li key={item.id}>
-
                         <NavLink
                           className="dropdown-item"
                           to={item.url}
                         >
                           {item.title}
                         </NavLink>
-
                       </li>
                     )
                   })}
                 </ul>
-
               </li>
             </ul>
           </div>

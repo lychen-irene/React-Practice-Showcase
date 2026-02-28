@@ -185,6 +185,7 @@ const AdminProducts = function () {
                     openProductModal={openProductModal}
                     INITIAL_TEMPLATE_PRODUCT_DATA={INITIAL_TEMPLATE_PRODUCT_DATA}
                   />
+                  <h2>產品管理列表</h2>
                   <Declaration />
                 </div>
                 <div className="table">

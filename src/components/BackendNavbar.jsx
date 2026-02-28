@@ -42,7 +42,6 @@ const BackendNavbar = () => {
             </ul>
             {/* Logout */}
             <ul className="navbar-nav ms-auto">
-
               {titles.filter(item => item.title === 'Logout').map((item) => {
                 return (
                   <li className="nav-item" key={item.id}>
@@ -55,7 +54,32 @@ const BackendNavbar = () => {
                   </li>
                 )
               })}
+              {/* Project dropdown */}
 
+              <li className="nav-item dropdown" key={0}>
+                <NavLink
+                  className="nav-link dropdown-toggle"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Project
+                </NavLink>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  {titles.filter(item => item.id >= 11 && item.id <= 20).map((item) => {
+                    return (
+                      <li key={item.id}>
+                        <NavLink
+                          className="dropdown-item"
+                          to={item.url}
+                        >
+                          {item.title}
+                        </NavLink>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
