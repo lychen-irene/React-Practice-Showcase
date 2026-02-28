@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import axios from 'axios'
 import 'bootstrap' // loads Bootstrap's JavaScript plugins
-import Swal from 'sweetalert2'
 
 import LoginForm from '../front/LoginForm'
 import Loading from '../../components/Loading'
@@ -10,27 +9,8 @@ import ProductHeader from '../../components/ProductHeader'
 import ProductDetail from '../../components/ProductDetail'
 import ProductsLoading from '../../components/ProductsLoading'
 
-// Get login token from cookie
-const getToken = function () {
-  return document.cookie
-    .split('; ')
-    .find(row => row.startsWith('hexToken='))
-    ?.split('=')[1]
-}
-// const function statement only due to document.cookie changes over time (e.g., after login)
-
-// SweetAlert popup type
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer
-    toast.onmouseleave = Swal.resumeTimer
-  },
-})
+import { getToken } from '../../utils/auth'
+import { Toast } from '../../utils/toast'
 
 // Check login status button
 const CheckLoginButton = function ({ onClick, isChecking }) {

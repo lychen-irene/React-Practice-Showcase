@@ -1,20 +1,8 @@
 import { useEffect, useCallback, useState } from 'react'
 import axios from 'axios'
 import 'bootstrap'
-import Swal from 'sweetalert2'
 
-// SweetAlert popup type
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: function (toast) {
-    toast.onmouseenter = Swal.stopTimer
-    toast.onmouseleave = Swal.resumeTimer
-  },
-})
+import { Toast } from '../../utils/toast'
 
 function Cart() {
   // API path

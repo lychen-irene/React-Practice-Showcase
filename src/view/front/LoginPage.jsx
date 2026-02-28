@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+
+import { Toast } from '../../utils/toast'
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 function setAuthToken(token, expired) {
@@ -10,18 +11,6 @@ function setAuthToken(token, expired) {
 }
 
 const LoginPage = function () {
-  // SweetAlert popup type
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: function (toast) {
-      toast.onmouseenter = Swal.stopTimer
-      toast.onmouseleave = Swal.resumeTimer
-    },
-  })
   const navigate = useNavigate()
   const {
     register,
