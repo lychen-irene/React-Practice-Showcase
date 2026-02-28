@@ -175,7 +175,7 @@ const ProjectTwoPage = function () {
                   onClick={checkLogin}
                   isChecking={isChecking}
                 />
-
+                <h2>產品列表</h2>
                 <Declaration />
                 <table className="table table-dark table-striped table-bordered border-secondary">
                   {!isProductsLoading

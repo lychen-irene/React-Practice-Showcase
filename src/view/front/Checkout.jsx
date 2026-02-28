@@ -222,7 +222,7 @@ function Checkout() {
 
         {/* 產品列表 */}
         <div className="container m-5">
-          <h2>Checkout Page</h2>
+          <h2>產品列表</h2>
           <table className="table table-dark table-striped table-bordered border-secondary align-middle">
             <thead>
               <tr>
@@ -315,7 +315,7 @@ function Checkout() {
         {/* 購物車 */}
 
         <div className="container m-5">
-          <h2>Cart List</h2>
+          <h2>購物車列表</h2>
           <div className="text-end mt-4">
             <button
               type="button"
@@ -389,8 +389,10 @@ function Checkout() {
             </tfoot>
           </table>
         </div>
+
         {/* 填寫資料 */}
         <div className="container m-5">
+          <h2>結帳資料</h2>
           <div className="conatainer checkout my-5 row text-start justify-content-center">
             <form className="col-md-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3">

@@ -1,7 +1,6 @@
 const Declaration = function () {
   return (
     <>
-      <h2>產品列表</h2>
       <p>
         以下產品資料來源為
         {/* rel="noopener noreferrer" for prevent phishing */}
