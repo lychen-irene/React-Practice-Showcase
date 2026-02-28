@@ -8,5 +8,10 @@ export const titles = [
   { id: 12, title: 'Project-2', url: '/admin/projectTwo' },
   { id: 13, title: 'Project-3', url: '/admin/projectThird' },
   { id: 14, title: 'Project-4', url: '/admin/projectFourth' },
-  { id: 99, title: 'Login', url: '/login' },
+
+  { id: 21, title: 'Product Management', url: '/admin/products' },
+  { id: 22, title: 'Order Management', url: '/admin/orders' },
+
+  { id: 98, title: 'Login', url: '/login' },
+  { id: 99, title: 'Logout', url: '/logout' },
 ]

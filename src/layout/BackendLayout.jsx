@@ -1,12 +1,12 @@
 import { Outlet, Link } from 'react-router'
-import Navbar from '../components/Navbar'
 import { titles } from '../components/navTitles'
 import Footer from '../components/Footer'
+import BackendNavbar from '../components/BackendNavbar'
 
 const BackendLayout = function () {
   return (
     <>
-      <Navbar title={{ titles }} />
+      <BackendNavbar title={{ titles }} />
       <Outlet />
       <Footer />
     </>
