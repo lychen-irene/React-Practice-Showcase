@@ -7,14 +7,16 @@ body {
     font-weight: normal;
     color: rgba(255, 255, 255, 0.87);
     transition: border-color 0.25s;
-    display: flex; // Use flexbox for layout
+    min-height: 100vh; // Ensure body takes full viewport height
+
+    // align loading spinner
+    display: flex; 
     justify-content: center; // Center horizontally
     align-items: center; // Center vertically
-    min-height: 100vh; // Ensure body takes full viewport height
+    
     
 }
 
-// Default vite homepage
 #root {
     width: 100%;
     max-width: 1280px;
@@ -22,48 +24,8 @@ body {
     padding: 2rem;
     text-align: center;
     --navbar-height: 56px;
-  }
-
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-.logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
-}
   
-@keyframes logo-spin {
-from {
-    transform: rotate(0deg);
 }
-to {
-    transform: rotate(360deg);
-}
-}
-  
-@media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-        animation: logo-spin infinite 20s linear;
-    }
-}  
-.card-sample {
-    padding: 2em;
-    border: none;
-}
-  
-.card-sample p {
-    margin-top: 1em;
-}
-  
-.read-the-docs {
-    color: #888;
-}
-
 
 // Project-1
 div.d-flex {
@@ -109,6 +71,35 @@ h2 {
     background-color: #263238;
 }
 
+.nav-link {
+    color: rgba(255, 255, 255, 0.87) !important;
+    font-weight: normal;
+}
+
+.nav-link.dropdown-toggle.active {
+    color: rgba(255, 255, 255, 0.87) !important;
+    font-weight: normal;
+}
+
+.dropdown-menu.show {
+    background-color: #263238;
+
+}
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.87) !important;
+    font-weight: normal;
+}
+
+.dropdown-item.active {
+    color: white !important;
+    font-weight: bold;    
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-hover-bg: #000000 ;
+    --bs-dropdown-link-active-bg: #0e384e ;
+  }
+
 .nav-link.active {
     color: white !important;
     font-weight: bold;
@@ -147,7 +138,29 @@ a {
     top: var(--navbar-height);
     background:  #242424;  /* 重要：需要背景色，否則捲動時會「穿透」 */
     z-index: 10;        /* 確保在表格之上 */
-  }
-  .text-red {
+}
+.text-red {
     color: $red;
-  }
+}
+
+// Cart  
+.cart .form-control {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+    color: #ffffff;
+  
+}
+
+.cart .input-group-text {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+    color: #ffffff; 
+}
+
+// Single Product Modal
+.singleProduct .form-control {
+    background-color: rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0);
+    color: #ffffff;
+    
+}
