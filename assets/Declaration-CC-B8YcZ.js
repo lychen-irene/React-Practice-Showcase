@@ -1,0 +1,1 @@
+import{j as r}from"./index-x-bA5Rj1.js";const n=function(){return r.jsxs(r.Fragment,{children:[r.jsx("h2",{children:"產品列表"}),r.jsxs("p",{children:["以下產品資料來源為",r.jsx("a",{href:"https://www.stonexp.idv.tw/i.h?cls=40&pg=0,1",target:"_blank",rel:"noopener noreferrer",children:"石探紀：茶包的礦物化石網站"}),r.jsx("br",{}),"此列表僅供作業練習與面試使用，非商業性質用途"]})]})};export{n as D};
