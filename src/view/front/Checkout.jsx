@@ -124,6 +124,10 @@ function Checkout() {
       })
       reset()
       getCart()
+      Toast.fire({
+        icon: 'success',
+        title: 'Successfully submit checkout form',
+      })
     }
     catch (error) {
       console.error(error)
@@ -227,9 +231,10 @@ function Checkout() {
   return (
     <>
       <div className="container">
-        <h2>Checkout Page</h2>
+
         {/* 產品列表 */}
         <div className="container m-5">
+          <h2>Checkout Page</h2>
           <table className="table table-dark table-striped table-bordered border-secondary align-middle">
             <thead>
               <tr>
@@ -318,212 +323,217 @@ function Checkout() {
             </tbody>
           </table>
         </div>
-        <h2>Cart List</h2>
+
         {/* 購物車 */}
-        <div className="text-end mt-4">
-          <button
-            type="button"
-            className="btn btn-danger my-3"
-            onClick={() => deleteCartAll()}
-          >
-            清空購物車
-          </button>
-        </div>
-        <table className="table table-dark table-striped table-bordered border-secondary">
-          <thead>
-            <tr>
-              <th scope="col">功能</th>
-              <th scope="col">品名</th>
-              <th scope="col">數量/單位</th>
-              <th scope="col">小計</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart?.carts?.length > 0
-              ? cart?.carts?.map(cartItem => (
-                  <tr key={cartItem.id}>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-danger btn-sm"
-                        onClick={() => deleteCart(cartItem.id)}
-                      >
-                        刪除
-                      </button>
-                    </td>
-                    <td className="align-middle">{cartItem.product.title}</td>
-                    <td>
-                      <div className="d-flex">
-                        <input
-                          key={`${cartItem.id}-${cartItem.qty}`}
-                          type="number"
-                          className="form-control text-end"
-                          aria-label="Sizing example input"
-                          aria-describedby="inputGroup-sizing-sm"
-                          defaultValue={cartItem.qty}
-                          onChange={e =>
-                            updateCart(
-                              cartItem.id,
-                              cartItem.product_id,
-                              Number(e.target.value),
-                            )}
-                        />
-                        <span
-                          className="input-group-text"
-                          id="inputGroup-sizing-sm"
+
+        <div className="container m-5">
+          <h2>Cart List</h2>
+          <div className="text-end mt-4">
+            <button
+              type="button"
+              className="btn btn-danger my-3"
+              onClick={() => deleteCartAll()}
+            >
+              清空購物車
+            </button>
+          </div>
+          <table className="table table-dark table-striped table-bordered border-secondary">
+            <thead>
+              <tr>
+                <th scope="col">功能</th>
+                <th scope="col">品名</th>
+                <th scope="col">數量/單位</th>
+                <th scope="col">小計</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart?.carts?.length > 0
+                ? cart?.carts?.map(cartItem => (
+                    <tr key={cartItem.id}>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          onClick={() => deleteCart(cartItem.id)}
                         >
-                          {cartItem.product.unit}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="text-middle align-middle">{cartItem.final_total}</td>
-                  </tr>
-                ))
+                          刪除
+                        </button>
+                      </td>
+                      <td className="align-middle">{cartItem.product.title}</td>
+                      <td className="cart">
+                        <div className="d-flex">
+                          <input
+                            key={`${cartItem.id}-${cartItem.qty}`}
+                            type="number"
+                            className="form-control text-end"
+                            aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-sm"
+                            defaultValue={cartItem.qty}
+                            onChange={e =>
+                              updateCart(
+                                cartItem.id,
+                                cartItem.product_id,
+                                Number(e.target.value),
+                              )}
+                          />
+                          <span
+                            className="input-group-text"
+                            id="inputGroup-sizing-sm"
+                          >
+                            {cartItem.product.unit}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="text-middle align-middle">{cartItem.final_total}</td>
+                    </tr>
+                  ))
 
-              : <tr><td colSpan="4">購物車沒有商品</td></tr>}
+                : <tr><td colSpan="4">購物車沒有商品</td></tr>}
 
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="text-end" colSpan="3">
-                總計
-              </td>
-              <td className="text-middel">{cart.final_total}</td>
-            </tr>
-          </tfoot>
-        </table>
-
+            </tbody>
+            <tfoot>
+              <tr>
+                <td className="text-end" colSpan="3">
+                  總計
+                </td>
+                <td className="text-middel">{cart.final_total}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
         {/* 填寫資料 */}
-        <div className="conatainer checkout my-5 row justify-content-center">
-          <form className="col-md-6" onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label
-                htmlFor="email"
-                className="form-label"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                className="form-control"
-                placeholder="請輸入 Email"
-                {...register('email', {
-                  required: '請輸入 Email',
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: 'Email 格式不正確',
-                  } })}
-                defaultValue="test@gamil.com"
-              />
-              {errors.email && (
-                <p className="text-warning fw-bold">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+        <div className="container m-5">
+          <div className="conatainer checkout my-5 row text-start justify-content-center">
+            <form className="col-md-6" onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-3">
+                <label
+                  htmlFor="email"
+                  className="form-label"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  className="form-control"
+                  placeholder="請輸入 Email"
+                  {...register('email', {
+                    required: '請輸入 Email',
+                    pattern: {
+                      value: /^\S+@\S+$/i,
+                      message: 'Email 格式不正確',
+                    } })}
+                // defaultValue="test@gamil.com"
+                />
+                {errors.email && (
+                  <p className="text-warning fw-bold">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
 
-            <div className="mb-3">
-              <label
-                htmlFor="name"
-                className="form-label"
-              >
-                收件人姓名
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                className="form-control"
-                placeholder="請輸入姓名"
-                {...register('name', {
-                  required: '請輸入收件人姓名',
-                  minLength: { value: 2, message: '姓名至少 2 個字' },
-                })}
-                defaultValue="小明"
-              />
-              {errors.name && (
-                <p className="text-warning fw-bold">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="name"
+                  className="form-label"
+                >
+                  收件人姓名
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  className="form-control"
+                  placeholder="請輸入姓名"
+                  {...register('name', {
+                    required: '請輸入收件人姓名',
+                    minLength: { value: 2, message: '姓名至少 2 個字' },
+                  })}
+                // defaultValue="小明"
+                />
+                {errors.name && (
+                  <p className="text-warning fw-bold">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
 
-            <div className="mb-3">
-              <label
-                htmlFor="tel"
-                className="form-label"
-              >
-                收件人電話
-              </label>
-              <input
-                id="tel"
-                name="tel"
-                type="tel"
-                className="form-control"
-                placeholder="請輸入電話"
-                {...register('tel', {
-                  required: '請輸入收件人電話',
-                  minLength: { value: 8, message: '電話至少 8 碼' },
-                  pattern: {
-                    value: /^\d+$/,
-                    message: '電話僅能輸入數字',
-                  },
-                })}
-                defaultValue="0912345678"
-              />
-              {errors.tel && (
-                <p className="text-warning fw-bold">
-                  {errors.tel.message}
-                </p>
-              )}
-            </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="tel"
+                  className="form-label"
+                >
+                  收件人電話
+                </label>
+                <input
+                  id="tel"
+                  name="tel"
+                  type="tel"
+                  className="form-control"
+                  placeholder="請輸入電話"
+                  {...register('tel', {
+                    required: '請輸入收件人電話',
+                    minLength: { value: 8, message: '電話至少 8 碼' },
+                    pattern: {
+                      value: /^\d+$/,
+                      message: '電話僅能輸入數字',
+                    },
+                  })}
+                // defaultValue="0912345678"
+                />
+                {errors.tel && (
+                  <p className="text-warning fw-bold">
+                    {errors.tel.message}
+                  </p>
+                )}
+              </div>
 
-            <div className="mb-3">
-              <label htmlFor="address" className="form-label">
-                收件人地址
-              </label>
-              <input
-                id="address"
-                name="address"
-                type="text"
-                className="form-control"
-                placeholder="請輸入地址"
-                {...register('address', {
-                  required: '請輸入收件人地址',
-                })}
-                defaultValue="臺北市信義區信義路5段7號"
-              />
-              {errors.address && (
-                <p className="text-warning fw-bold">
-                  {errors.address.message}
-                </p>
-              )}
-            </div>
+              <div className="mb-3">
+                <label htmlFor="address" className="form-label">
+                  收件人地址
+                </label>
+                <input
+                  id="address"
+                  name="address"
+                  type="text"
+                  className="form-control"
+                  placeholder="請輸入地址"
+                  {...register('address', {
+                    required: '請輸入收件人地址',
+                  })}
+                // defaultValue="臺北市信義區信義路5段7號"
+                />
+                {errors.address && (
+                  <p className="text-warning fw-bold">
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
 
-            <div className="mb-3">
-              <label
-                htmlFor="message"
-                className="form-label"
-              >
-                留言
-              </label>
-              <textarea
-                id="message"
-                className="form-control"
-                cols="30"
-                rows="10"
-                {...register('message')}
-              >
-              </textarea>
-            </div>
-            <div className="text-end">
-              <button type="submit" className="btn btn-primary">
-                送出訂單
-              </button>
-            </div>
-          </form>
+              <div className="mb-3">
+                <label
+                  htmlFor="message"
+                  className="form-label"
+                >
+                  留言
+                </label>
+                <textarea
+                  id="message"
+                  className="form-control"
+                  cols="30"
+                  rows="10"
+                  {...register('message')}
+                >
+                </textarea>
+              </div>
+              <div className="text-end">
+                <button type="submit" className="btn btn-primary">
+                  送出訂單
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <SingleProductModal
